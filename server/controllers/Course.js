@@ -10,10 +10,6 @@ exports.createCourse = async (req, res) => {
   try{
     // Get user ID from request object
 		const userId = req.user.id;
-    console.log("User->")
-    console.log(req.user)
-    console.log("Body->")
-    console.log(req.body)
     
     //Fetch Data
     let {courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions} = req.body;
@@ -39,7 +35,7 @@ exports.createCourse = async (req, res) => {
         message: "Instructor details not found"
       });
     }
-    console.log("Testing........")
+
     // Check given tag is valid or not
     const categoryDetails = await Category.findOne({name:category});
     if(!categoryDetails){
@@ -48,8 +44,6 @@ exports.createCourse = async (req, res) => {
         message: "Category details not found"
       });
     }
-    console.log("Category->")
-    console.log(categoryDetails)
     
     //Upload image to cloudinary
     const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
@@ -59,7 +53,6 @@ exports.createCourse = async (req, res) => {
       courseName, courseDescription, instructor:instructorDetails._id, price, tag, category:categoryDetails._id, thumbnail:thumbnailImage.secure_url, status,
 			instructions,
     })
-    console.log(newCourse)
 
     //Add the new course to course schema of instructor
     await User.findByIdAndUpdate(
