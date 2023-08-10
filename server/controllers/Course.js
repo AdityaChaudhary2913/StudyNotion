@@ -2,6 +2,7 @@ const Course=require('../models/Course');
 const Category=require('../models/Category');
 const User=require('../models/User');
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
+const { json } = require('body-parser');
 require("dotenv").config();
 
 //create course
@@ -9,10 +10,14 @@ exports.createCourse = async (req, res) => {
   try{
     // Get user ID from request object
 		const userId = req.user.id;
-
+    console.log("User->")
+    console.log(req.user)
+    console.log("Body->")
+    console.log(req.body)
+    
     //Fetch Data
     let {courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions} = req.body;
-
+    
     //Get thumbnail
     const thumbnail=req.files.thumbnailImage;
 
@@ -23,7 +28,7 @@ exports.createCourse = async (req, res) => {
       });
     }
     if (!status || status === undefined) {
-			status = "Draft";
+      status = "Draft";
 		}
     
     //Check for instructor
@@ -34,24 +39,27 @@ exports.createCourse = async (req, res) => {
         message: "Instructor details not found"
       });
     }
-    
-    //Check given tag is valid or not
-    const categoryDetails=await Category.findById(category);
+    console.log("Testing........")
+    // Check given tag is valid or not
+    const categoryDetails = await Category.findOne({name:category});
     if(!categoryDetails){
       return res.status(404).json({
         success:false,
         message: "Category details not found"
       });
     }
+    console.log("Category->")
+    console.log(categoryDetails)
     
     //Upload image to cloudinary
     const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
     
     //Create and entry for new course
     const newCourse= await Course.create({
-      courseName, courseDescription, instructor:instructorDetails._id, price, tag:categoryDetails._id, thumbnail:thumbnailImage.secure_url, status: status,
-			instructions: instructions,
+      courseName, courseDescription, instructor:instructorDetails._id, price, tag, category:categoryDetails._id, thumbnail:thumbnailImage.secure_url, status,
+			instructions,
     })
+    console.log(newCourse)
 
     //Add the new course to course schema of instructor
     await User.findByIdAndUpdate(
@@ -86,6 +94,7 @@ exports.createCourse = async (req, res) => {
       date:newCourse,
     });
   } catch(err){
+    console.log(err)
     return res.status(500).json({
       success:false,
       message: "Failed to create course"

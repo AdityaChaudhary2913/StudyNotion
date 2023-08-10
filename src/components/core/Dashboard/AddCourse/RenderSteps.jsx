@@ -22,7 +22,7 @@ const RenderSteps = () => {
     },
   ]
   return (
-    <div>
+    <>
       <div className="relative mb-2 flex w-full justify-center">
         {steps.map((item) => (
           <>
@@ -43,7 +43,6 @@ const RenderSteps = () => {
                   item.id
                 )}
               </button>
-              
             </div>
             {item.id !== steps.length && (
               <>
@@ -60,7 +59,6 @@ const RenderSteps = () => {
 
       <div className="relative mb-16 flex w-full select-none justify-between">
         {steps.map((item) => (
-          <>
             <div
               className="flex min-w-[130px] flex-col items-center gap-y-2"
               key={item.id}
@@ -73,13 +71,12 @@ const RenderSteps = () => {
                 {item.title}
               </p>
             </div>
-          </>
         ))}
       </div>
       { step === 1 && <CourseInfo /> }
       { step === 2 && <CourseBuilder /> }
-      {/* { step === 3 && <PublishCourse /> } */}
-    </div>
+      { step === 3 && <PublishCourse /> }
+    </>
   )
 }
 

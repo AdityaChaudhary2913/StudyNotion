@@ -34,7 +34,7 @@ function App() {
         <Route path="/forgot-password" element={<OpenRoute><ForgotPassword/></OpenRoute>} />
         <Route path="/update-password/:id" element={<OpenRoute><UpdatePassword/></OpenRoute>} />
         <Route path="/verify-email" element={<OpenRoute><VerifyEmail/></OpenRoute>} />
-        <Route path="/about" element={<OpenRoute><About/></OpenRoute>} />
+        <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route element={<PrivateRoute><Dashboard /></PrivateRoute>}>
           <Route path="/dashboard/my-profile" element={<Myprofile />} />

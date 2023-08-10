@@ -282,6 +282,7 @@ const CourseInfo = () => {
           )
         }
         <IconBtn
+          onClick={() => dispatch(setStep(2))}
           text={!editCourse ? "Next" : "Save Changes"}
         >
           <MdNavigateNext />

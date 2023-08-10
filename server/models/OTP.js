@@ -24,7 +24,7 @@ async function sendVerificationEmail(email, otp){
     const mailResponse=await mailSender(email, "Verification email from StudyNotion", emailTemplate(otp));
     console.log("Email sent successfully!", mailResponse)
   } catch(err){
-    console.log("Error while sending mail OTP!"),
+    console.log("Error while sending mail OTP!");
     console.log(err);
     throw err;
   }
