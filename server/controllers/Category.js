@@ -14,11 +14,10 @@ exports.createCategory = async (req, res) => {
       });
     }
     //Create entry in Database
-    const tagDetail=await Category.create({
+    const categoryDetail=await Category.create({
       name:name,
       description:description,
     })
-    console.log(tagDetail);
     
     //Returning response
     return res.status(201).json({
@@ -67,7 +66,7 @@ exports.categoryPageDetails = async (req, res) => {
 				message: "Data Not Found",
 			});
 		}
-		//get coursesfor different categories
+		//get courses for different categories
 		const differentCategories = await Category.find({
 			_id: { $ne: categoryId },
 		})
