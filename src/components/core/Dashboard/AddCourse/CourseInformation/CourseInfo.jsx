@@ -21,7 +21,6 @@ const CourseInfo = () => {
   const getCategories = async () => {
     const categories = await fetchCourseCategories()
     if (categories.length > 0) {
-      // console.log("categories", categories)
       setCourseCategories(categories)
     }
   }
@@ -282,9 +281,8 @@ const CourseInfo = () => {
           )
         }
         <IconBtn
-          onClick={() => dispatch(setStep(2))}
           text={!editCourse ? "Next" : "Save Changes"}
-        >
+          >
           <MdNavigateNext />
         </IconBtn>
       </div>
