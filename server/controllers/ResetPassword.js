@@ -76,7 +76,7 @@ exports.resetPassword = async (req, res) => {
     if(password !== confirmPassword){
       return res.status(400).json({
         success:false,
-        message:"Password and confirm password dont match"
+        message:"Password and confirm password don't match"
       });      
     }
 
