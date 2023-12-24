@@ -36,6 +36,14 @@ exports.createCourse = async (req, res) => {
       });
     }
 
+    const courseDe = await Course.findOne({courseName:courseName})
+    if(courseDe){
+      return res.status(400).json({
+        success:false,
+        message: "Course already exist"
+      });
+    }
+
     // Check given tag is valid or not
     const categoryDetails = await Category.findOne({name:category});
     if(!categoryDetails){
