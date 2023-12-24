@@ -35,10 +35,12 @@ router.post("/updateSubSection", auth, isInstructor, updateSubSection)
 router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
 router.post("/addSubSection", auth, isInstructor, createSubSection)
 router.get("/getAllCourses", showAllCourses)
-router.post("/getCourseDetails", getCourseDetails)
+router.get("/getCourseDetails", getCourseDetails)
+
 router.post("/createCategory", auth, isAdmin, createCategory)
 router.get("/showAllCategories", showAllCategory)
 router.post("/getCategoryPageDetails", categoryPageDetails)
+
 router.post("/createRating", auth, isStudent, createRating)
 router.get("/getAverageRating", getAverageRating)
 router.get("/getReviews", getAllRating)

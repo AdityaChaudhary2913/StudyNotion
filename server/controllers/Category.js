@@ -10,7 +10,7 @@ exports.createCategory = async (req, res) => {
     if(!name || !description){
       return res.status(400).json({
         success:false,
-        message:"Please provide every detail for the tag"
+        message:"Please provide every detail"
       });
     }
     //Create entry in Database
@@ -26,9 +26,9 @@ exports.createCategory = async (req, res) => {
     });
 
   } catch(err){
-    res.status(500).json({
+    return res.status(500).json({
       success:false,
-      message:"Error while creating tag!"
+      message:"Error while creating category!"
     })
   }
 }

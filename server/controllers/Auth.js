@@ -41,7 +41,6 @@ exports.signUp = async (req, res) => {
 
     //Find most recent OTP
     const recentOtp=await OTP.find({email}).sort({createdAt:-1}).limit(1);
-    console.log(recentOtp);
     
     //Validate OTP
     if(recentOtp.length === 0){
@@ -77,7 +76,7 @@ exports.signUp = async (req, res) => {
       password:hashedPassword,
       approved: true,
       additionalDetails:profileDetails._id,
-      image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
+      image:`https://api.dicebear.com/7.x/pixel-art/svg?seed=${firstName} ${lastName}`
     });
 
     //Returning response

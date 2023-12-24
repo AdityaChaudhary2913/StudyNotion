@@ -68,7 +68,7 @@ exports.capturePayment = async (req, res) => {
       const paymentResponse = await instance.orders.create(options);
       console.log(paymentResponse);
       //returning response
-      return res.status(200).json({
+      res.status(200).json({
         success:true,
         courseName:course.courseName,
         courseDescription:course.courseDescription,

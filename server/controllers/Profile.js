@@ -1,3 +1,4 @@
+const Course = require("../models/Course");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
@@ -5,23 +6,21 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 exports.updateProfile = async (req, res) => {
   try{
     //Fetch data
-    const { dateOfBirth="", about="", contactNumber, gender } = req.body;
+    const { firstName, lastName, dateOfBirth, about, contactNumber, gender } = req.body;
     //Fetch UserId
     const id=req.user.id;
     //Finding profile
     const userDetail = await User.findById(id);
     const profile = await Profile.findById(userDetail.additionalDetails);
     //Updating Profile
-    profile.dateOfBirth=dateOfBirth;
-    profile.about=about;
-    profile.contactNumber=contactNumber;
-    profile.gender=gender;
+    if(firstName) userDetail.firstName=firstName;
+    if(lastName) userDetail.lastName=lastName;
+    if(dateOfBirth) profile.dateOfBirth=dateOfBirth;
+    if(about) profile.about=about;
+    if(contactNumber) profile.contactNumber=contactNumber;
+    if(gender) profile.gender=gender;
     await profile.save();
     
-    //Returning response
-    // const userInfo=await User.findById(userDetail).populate("additionalDetail");
-    // console.log("Testing")
-    // console.log(userInfo);
     return res.status(200).json({
       success:true,
       message:"Profile Updated Successfully",
@@ -58,7 +57,14 @@ exports.deleteProfile = async (req, res) => {
     //Delete Profile
     await Profile.findByIdAndDelete({_id:userDetails.additionalDetails});
 
-    //Unenroll user from all Courses
+    //Unenroll user from all Courses to be done
+    for (const courseId of userDetails.courses) {
+      await Course.findByIdAndUpdate(
+        courseId,
+        { $pull: { studentsEnrolled: id } },
+        { new: true }
+      )
+    }
 
     //Delete user
     await User.findByIdAndDelete({_id:id});
@@ -87,13 +93,11 @@ exports.getAllUserDetails = async (req, res) => {
     const userDetails = await User.findById(id).populate("additionalDetails").exec();
 
     //returning response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User Details fetched",
       data:userDetails,
     });
-
-
   } catch(err){
     console.log("Error while fetching all user details");
     return res.status(500).json({
