@@ -54,8 +54,8 @@ exports.updateSubSection = async (req, res) => {
   try {
 
     //Fetch data
-    const { sectionId, title, description } = req.body
-    const subSection = await SubSection.findById(sectionId)
+    const { sectionId, subSectionId, title, description } = req.body
+    const subSection = await SubSection.findById(subSectionId)
 
     //Validations
     if (!subSection) {
@@ -81,17 +81,19 @@ exports.updateSubSection = async (req, res) => {
     }
     //Saving the subsection
     await subSection.save();
+    const updatedSection = await Section.findById(sectionId).populate("subSection")
 
     //Returning response
     return res.json({
       success: true,
       message: "Section updated successfully",
+      updatedSection
     })
   } catch (error) {
     console.error(error)
     return res.status(500).json({
       success: false,
-      message: "An error occurred while updating the section",
+      message: "An error occurred while updating the sub section",
     })
   }
 }
