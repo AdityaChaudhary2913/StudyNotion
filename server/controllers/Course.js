@@ -98,7 +98,8 @@ exports.createCourse = async (req, res) => {
     console.log(err)
     return res.status(500).json({
       success:false,
-      message: "Failed to create course"
+      message: "Failed to create course",
+      err
       });
   }
 }
