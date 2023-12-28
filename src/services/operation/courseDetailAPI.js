@@ -91,7 +91,7 @@ export const addCourseDetails = async (data, token) => {
       throw new Error("Could Not Add Course Details")
     }
     toast.success("Course Details Added Successfully")
-    result = response?.data?.data
+    result = response?.data?.date
   } catch (error) {
     console.log("CREATE COURSE API ERROR............", error)
     toast.error(error.message)
@@ -136,7 +136,7 @@ export const createSection = async (data, token) => {
       throw new Error("Could Not Create Section")
     }
     toast.success("Course Section Created")
-    result = response?.data?.updatedCourse
+    result = response?.data?.updatedCourseDetails
   } catch (error) {
     console.log("CREATE SECTION API ERROR............", error)
     toast.error(error.message)

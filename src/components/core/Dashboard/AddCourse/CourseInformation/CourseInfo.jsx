@@ -26,7 +26,7 @@ const CourseInfo = () => {
 		formState: { errors },
 	} = useForm();
 	const dispatch = useDispatch();
-	const { course, editCourse, step } = useSelector((state) => state.course);
+	const { course, editCourse } = useSelector((state) => state.course);
 	const [courseCategories, setCourseCategories] = useState([]);
   const [loading, setLoading] = useState(false)
 	useEffect(() => {
@@ -124,16 +124,16 @@ const CourseInfo = () => {
 		formData.append("status", COURSE_STATUS.DRAFT);
 		formData.append("instructions", JSON.stringify(data.courseRequirements));
 		formData.append("thumbnailImage", data.courseImage);
-    setLoading(true)
-		console.log(step)
-		const result = await addCourseDetails(formData, token);
-		if (result) {
+		try{
+			setLoading(true)
+			const result = await addCourseDetails(formData, token);
 			dispatch(setStep(2));
 			dispatch(setCourse(result));
+			setLoading(false)
+		}	catch(err){
+			setLoading(false)
+			console.log('Error in adding Course', err)
 		}
-		// dispatch(setStep(2));
-    setLoading(false)
-		console.log(step)
 	};
 	return (
 		<form

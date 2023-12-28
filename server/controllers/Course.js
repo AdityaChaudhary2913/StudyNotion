@@ -45,7 +45,7 @@ exports.createCourse = async (req, res) => {
     }
 
     // Check given tag is valid or not
-    const categoryDetails = await Category.findById(category)
+    const categoryDetails = await Category.findOne({name:category})
     if(!categoryDetails){
       return res.status(404).json({
         success:false,
@@ -95,7 +95,6 @@ exports.createCourse = async (req, res) => {
       date:newCourse,
     });
   } catch(err){
-    console.log(err)
     return res.status(500).json({
       success:false,
       message: "Failed to create course",
