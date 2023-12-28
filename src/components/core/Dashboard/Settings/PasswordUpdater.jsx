@@ -14,7 +14,6 @@ const PasswordUpdater = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: {errors} } = useForm();
   const formSubmit = async (data) => {
-    console.log("password Data - ", data)
     try{
       await updatePassword(token, data)
     } catch(err){

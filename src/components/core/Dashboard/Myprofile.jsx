@@ -36,13 +36,13 @@ const Myprofile = () => {
             <RiEditBoxLine />
           </IconBtn>          
         </div>
-        <p className={`${
+        <span className={`${
             user?.additionalDetails?.about
               ? "text-richblack-5"
               : "text-richblack-400"
           } text-sm font-medium`}>
             { user?.additionalDetails?.about ? (<p>{user?.additionalDetails?.about}</p>) : (<p>Write Something About Yourself...</p>) }
-        </p>
+        </span>
       </div>
       <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
         <div className="flex w-full items-center justify-between">
