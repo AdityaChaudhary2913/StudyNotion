@@ -47,6 +47,7 @@ exports.createCourse = async (req, res) => {
     // Check given tag is valid or not
     const categoryDetails = await Category.findOne({name:category});
     if(!categoryDetails){
+      console.log(category)
       return res.status(404).json({
         success:false,
         message: "Category details not found"
