@@ -84,6 +84,8 @@ const SubSectionModal = ({modalData, setModalData, add = false, view = false, ed
     formData.append("description", data.lectureDesc)
     formData.append("video", data.lectureVideo)
     setLoading(true)
+    console.log("Modal data->", modalData)
+    console.log("Data->", data)
     const result = await createSubSection(formData, token)
     if (result) {
       const updatedCourseContent = course.courseContent.map((section) =>

@@ -136,7 +136,7 @@ const CourseBuilder = () => {
 					)}
 				</div>
 			</form>
-			{course?.courseContent?.length > 0 && <NestedView handleChangeEditSectionName={() => handleChangeEditSectionName()} />}
+			{course?.courseContent?.length > 0 && <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />}
 			<div className="flex justify-end gap-x-3">
 				<button
 					onClick={goBack}

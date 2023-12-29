@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillCaretDown } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa";
@@ -56,7 +56,7 @@ const NestedView = ({ handleChangeEditSectionName }) => {
 							</div>
 							<div className="flex items-center gap-x-3">
 								<button
-									onClick={() => handleChangeEditSectionName(section._id, section.sectionName)}>
+									onClick={() => {handleChangeEditSectionName(section._id, section.sectionName)}}>
 									<MdEdit className="text-xl text-richblack-300" />
 								</button>
 								<button
@@ -147,7 +147,7 @@ const NestedView = ({ handleChangeEditSectionName }) => {
       )}
 
       {confirmationModal ? (
-        <ConfirmationModel modalData={confirmationModal} />
+        <ConfirmationModel modelData={confirmationModal} />
       ) : (
         <></>
       )}

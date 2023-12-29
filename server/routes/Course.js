@@ -4,6 +4,10 @@ const {
   createCourse,
   showAllCourses,
   getCourseDetails,
+  getFullCourseDetails,
+  deleteCourse,
+  getInstructorCourses,
+  editCourse,
 } = require("../controllers/Course")
 const {
   showAllCategory,
@@ -26,9 +30,11 @@ const {
   getAllRating,
 } = require("../controllers/RatingAndReview")
 const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth")
+const { updateCourseProgress } = require("../controllers/courseProgress")
 
 router.post("/createCourse", auth, isInstructor, createCourse)
 router.post("/addSection", auth, isInstructor, createSection)
+router.post("/editCourse", auth, isInstructor, editCourse)
 router.post("/updateSection", auth, isInstructor, updateSection)
 router.post("/deleteSection", auth, isInstructor, deleteSection)
 router.post("/updateSubSection", auth, isInstructor, updateSubSection)
@@ -36,6 +42,10 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
 router.post("/addSubSection", auth, isInstructor, createSubSection)
 router.get("/getAllCourses", showAllCourses)
 router.get("/getCourseDetails", getCourseDetails)
+router.post("/getFullCourseDetails", auth, getFullCourseDetails)
+router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress)
+router.delete("/deleteCourse", auth, isInstructor, deleteCourse)
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 
 router.post("/createCategory", auth, isAdmin, createCategory)
 router.get("/showAllCategories", showAllCategory)

@@ -5,14 +5,14 @@ const {uploadImageToCloudinary} = require("../utils/imageUploader");
 exports.createSubSection = async (req, res) => {
   try{
     //Fetch data
-    const {sectionId, title, timeDuration, description} = req.body;
+    const {sectionId, title, description} = req.body;
 
     //Extract file/video
-    const video = req.files.videoFile;
+    const video = req.files.video;
 
     //Validation
-    if(!sectionId || !title || !timeDuration || !description || !video){
-      console.log(sectionId, title, timeDuration, description, video)
+    if(!sectionId || !title || !description || !video){
+      console.log(sectionId, title, description, video)
       return res.status(400).json({
         error: "Please provide all the required fields"
       });
@@ -88,7 +88,7 @@ exports.updateSubSection = async (req, res) => {
     return res.json({
       success: true,
       message: "Section updated successfully",
-      updatedSection
+      data: updatedSection
     })
   } catch (error) {
     console.error(error)
@@ -119,9 +119,14 @@ exports.deleteSubSection = async (req, res) => {
         .json({ success: false, message: "SubSection not found" })
     }
 
+    const updatedSection = await Section.findById(sectionId).populate(
+      "subSection"
+    )
+
     return res.json({
       success: true,
       message: "SubSection deleted successfully",
+      data: updatedSection,
     })
   } catch (error) {
     console.error(error)
