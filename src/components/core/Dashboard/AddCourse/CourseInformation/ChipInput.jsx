@@ -7,7 +7,7 @@ const ChipInput = ({label, name, placeholder, register, errors, setValue, getVal
   const [chips, setChips] = useState([]);
   useEffect(() => {
     if(editCourse){
-      setChips(course?.tags);
+      setChips(course?.tag);
     }
     register(name, { required: true, validate: (value) => value.length > 0 })
   }, [])
@@ -22,7 +22,7 @@ const ChipInput = ({label, name, placeholder, register, errors, setValue, getVal
     if(event.key === "Enter" || event.key === ','){
       event.preventDefault();
       const chipValue = event.target.value.trim();
-      if(chipValue && !chips.includes(chipValue)){
+      if(chipValue && !chips?.includes(chipValue)){
         const newChip = [...chips, chipValue];
         setChips(newChip);
         event.target.value="";
@@ -36,7 +36,7 @@ const ChipInput = ({label, name, placeholder, register, errors, setValue, getVal
       </label>
       <div className="flex w-full flex-wrap gap-y-2">
         {
-          chips.map((chip, index) => (
+          chips?.map((chip, index) => (
             <div key={index} className="m-1 flex items-center rounded-full bg-yellow-400 px-2 py-1 text-sm text-richblack-5">
               {chip}
               <button

@@ -10,36 +10,24 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { apiConnector } from "../../services/apiConnector";
 import { categories } from "../../services/apis";
 
-const subLinks = [
-	{
-		title: "Python",
-		link: "/catalog/python",
-	},
-	{
-		title: "Web Dev",
-		link: "/catalog/web-development",
-	},
-];
-
 const Navbar = () => {
   const {token} = useSelector((state) => state.auth);
   const {user} = useSelector((state) => state.profile);
   const {totalItems} = useSelector((state) => state.cart);
   const location = useLocation();
 
-  // const [subLinks, setSubLinks] = useState([]);
-  // const fetchSubLinks = async () => {
-  //   try{
-  //     const result = await apiConnector("GET", categories.CATEGORIES_API);
-  //     console.log("Printing Sublinks result:", result);
-	// 		setSubLinks(result.data.data);
-  //   } catch(err){
-  //     console.log("Error while fetching categories in nav bar");
-  //   }
-  // }
-  // useEffect(() => {
-  //   fetchSubLinks();
-  // }, []);
+  const [subLinks, setSubLinks] = useState([]);
+  const fetchSubLinks = async () => {
+    try{
+      const result = await apiConnector("GET", categories.CATEGORIES_API);
+			setSubLinks(result.data.data);
+    } catch(err){
+      console.log("Error while fetching categories in nav bar");
+    }
+  }
+  useEffect(() => {
+    fetchSubLinks();
+  }, []);
   const matchRoute = (route) => {
 		return matchPath({ path: route }, location.pathname);
 	};
@@ -66,8 +54,8 @@ const Navbar = () => {
                           {
                             subLinks.length ? (
                               subLinks.map( (subLink, index) => (
-                                <Link to={`${subLink.link}`} key={index} className=''>
-                                  <p>{subLink.title}</p>
+                                <Link to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`} key={index} className=''>
+                                  <p>{subLink.name}</p>
                                 </Link>
                               ) )
                             ) : (<div></div>)

@@ -81,6 +81,7 @@ export const fetchCourseCategories = async () => {
 export const addCourseDetails = async (data, token) => {
   let result = null
   const toastId = toast.loading("Loading...")
+  console.log(data)
   try {
     const response = await apiConnector("POST", CREATE_COURSE_API, data, {
       "Content-Type": "multipart/form-data",
@@ -324,10 +325,8 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
   } catch (error) {
     console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
     result = error.response.data
-    // toast.error(error.response.data.message);
   }
   toast.dismiss(toastId)
-  //   dispatch(setLoading(false));
   return result
 }
 

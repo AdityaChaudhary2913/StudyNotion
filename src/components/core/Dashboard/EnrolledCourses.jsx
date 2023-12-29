@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { getUserEnrolledCourses } from '../../../services/operation/profileAPI';
 import ProgressBar from '@ramonak/react-progress-bar';
 
-
 const EnrolledCourses = () => {
   const { token }= useSelector((state) => state.auth);
   const [enrolledCourses, setEnrolledCourses] = useState(null);

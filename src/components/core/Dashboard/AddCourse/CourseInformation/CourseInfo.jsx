@@ -113,6 +113,7 @@ const CourseInfo = () => {
 			} else {
 				toast.error("No changes made to form");
 			}
+			return;
 		}
 		const formData = new FormData();
 		formData.append("courseName", data.courseTitle);
@@ -127,8 +128,10 @@ const CourseInfo = () => {
 		try{
 			setLoading(true)
 			const result = await addCourseDetails(formData, token);
-			dispatch(setStep(2));
-			dispatch(setCourse(result));
+			if(result){
+				dispatch(setStep(2));
+				dispatch(setCourse(result));
+			}
 			setLoading(false)
 		}	catch(err){
 			setLoading(false)

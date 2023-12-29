@@ -16,13 +16,16 @@ exports.createCourse = async (req, res) => {
 		const userId = req.user.id;
     
     //Fetch Data
-    let {courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions} = req.body;
+    let {courseName, courseDescription, whatYouWillLearn, price, tag: _tag, category, status, instructions: _instructions} = req.body;
     
     //Get thumbnail
     const thumbnail=req.files.thumbnailImage;
 
+    const tag = JSON.parse(_tag)
+    const instructions = JSON.parse(_instructions)
+
     //Validations
-    if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !category){
+    if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag.length || !category){
       return res.status(400).json({
         error: "Please fill all the fields"
       });
@@ -62,8 +65,7 @@ exports.createCourse = async (req, res) => {
     
     //Create and entry for new course
     const newCourse= await Course.create({
-      courseName, courseDescription, instructor:instructorDetails._id, price, tag, category:categoryDetails._id, thumbnail:thumbnailImage.secure_url, status,
-			instructions,
+      courseName, courseDescription, instructor:instructorDetails._id, price, tag, category:categoryDetails._id, thumbnail:thumbnailImage.secure_url, status, instructions, whatYouWillLearn: whatYouWillLearn
     })
 
     //Add the new course to course schema of instructor
@@ -99,6 +101,7 @@ exports.createCourse = async (req, res) => {
       date:newCourse,
     });
   } catch(err){
+    console.log(err)
     return res.status(500).json({
       success:false,
       message: "Failed to create course",
@@ -182,7 +185,7 @@ exports.getFullCourseDetails = async (req, res) => {
         },
       })
       .exec()
-
+      console.log(courseDetails)
     let courseProgressCount = await CourseProgress.findOne({
       courseID: courseId,
       userId: userId,
@@ -196,13 +199,6 @@ exports.getFullCourseDetails = async (req, res) => {
         message: `Could not find course with id: ${courseId}`,
       })
     }
-
-    // if (courseDetails.status === "Draft") {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: `Accessing a draft course is forbidden`,
-    //   });
-    // }
 
     let totalDurationInSeconds = 0
     courseDetails.courseContent.forEach((content) => {
@@ -269,7 +265,7 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Unenroll students from the course
-    const studentsEnrolled = course.studentsEnroled
+    const studentsEnrolled = course.studentsEnrolled
     for (const studentId of studentsEnrolled) {
       await User.findByIdAndUpdate(studentId, {
         $pull: { courses: courseId },

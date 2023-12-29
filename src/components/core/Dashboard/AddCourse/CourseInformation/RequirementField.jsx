@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ImCancelCircle } from "react-icons/im"
+import { useSelector } from 'react-redux';
 
 const RequirementField = ({label, name, register, placeholder, errors, setValue, getValues}) => {
   const [requirement, setRequirement] = useState("");
   const [requirementList, setRequirementList] = useState([]);
+  const { editCourse, course } = useSelector((state) => state.course)
   const addHandler = () => {
     if(requirement){
       setRequirementList([...requirementList, requirement])
@@ -18,6 +20,16 @@ const RequirementField = ({label, name, register, placeholder, errors, setValue,
     if(event.key === 'Enter')
       addHandler()
   }
+  useEffect(() => {
+    if (editCourse) {
+      setRequirementList(course?.instructions)
+    }
+    register(name, { required: true, validate: (value) => value.length > 0 })
+  }, [])
+
+  useEffect(() => {
+    setValue(name, requirementList)
+  }, [requirementList])
   return (
     <div className="flex flex-col space-y-2">
       <label className="text-sm text-richblack-5" htmlFor={name}>
@@ -54,6 +66,11 @@ const RequirementField = ({label, name, register, placeholder, errors, setValue,
           </ul>
         ) 
       }
+      {errors[name] && (
+        <span className="ml-2 text-xs tracking-wide text-pink-200">
+          {label} is required
+        </span>
+      )}
     </div>
   )
 }
