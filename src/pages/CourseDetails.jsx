@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { fetchCourseDetails } from "../services/operation/courseDetailAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
-import { BuyCourse } from "../services/operation/studentFeaturesAPI"
+import { BuyCourse, purchaseDirectly } from "../services/operation/studentFeaturesAPI"
 import ConfirmationModel from "../components/common/ConfirmationModel"
 import { formatDate } from "../services/formatDate"
 import RatingStars from "../components/common/RatingStars"
@@ -82,9 +82,10 @@ const CourseDetails = () => {
   //   createdAt,
   // } = response.data?.courseDetails
 
-  const handleBuyCourse = () => {
+  const handleBuyCourse = async () => {
     if (token) {
-      BuyCourse(token, [courseId], user, navigate, dispatch)
+      // await BuyCourse(token, [courseId], user, navigate, dispatch)
+      await purchaseDirectly({courseId}, token, navigate, dispatch)
       return
     }
     setConfirmationModal({
@@ -98,9 +99,11 @@ const CourseDetails = () => {
   }
 
   return (
-    <>
-      
-    </>
+    <div className="flex items-center">
+      <button className="bg-yellow-50 p-6 mt-10" onClick={() => handleBuyCourse()}>
+        Buy Now
+      </button>
+    </div>
   )
 }
 

@@ -18,4 +18,5 @@ export async function getUserEnrolledCourses(token){
     toast.error(err.response.data.message)
   }
   toast.dismiss(toastId)
+  return result
 }
