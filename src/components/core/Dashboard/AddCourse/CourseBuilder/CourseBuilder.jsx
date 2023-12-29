@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -95,6 +95,8 @@ const CourseBuilder = () => {
     setValue("sectionName", sectionName)
   }
 
+  
+
 	return (
 		<div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
 			<p className="text-2xl font-semibold text-richblack-5">Course Builder</p>
@@ -134,7 +136,7 @@ const CourseBuilder = () => {
 					)}
 				</div>
 			</form>
-			{course?.courseContent?.length > 0 && <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />}
+			{course?.courseContent?.length > 0 && <NestedView handleChangeEditSectionName={() => handleChangeEditSectionName()} />}
 			<div className="flex justify-end gap-x-3">
 				<button
 					onClick={goBack}

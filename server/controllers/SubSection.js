@@ -12,6 +12,7 @@ exports.createSubSection = async (req, res) => {
 
     //Validation
     if(!sectionId || !title || !timeDuration || !description || !video){
+      console.log(sectionId, title, timeDuration, description, video)
       return res.status(400).json({
         error: "Please provide all the required fields"
       });
