@@ -58,7 +58,7 @@ const CourseInfo = () => {
 			currentValues.coursePrice !== course.price ||
 			currentValues.courseTags.toString() !== course.tag.toString() ||
 			currentValues.courseBenefits !== course.whatYouWillLearn ||
-			currentValues.courseCategory._id !== course.category._id ||
+			currentValues.courseCategory?._id !== course.category?._id ||
 			currentValues.courseRequirements.toString() !==
 				course.instructions.toString() ||
 			currentValues.courseImage !== course.thumbnail
@@ -88,7 +88,7 @@ const CourseInfo = () => {
 				if (currentValues.courseBenefits !== course.whatYouWillLearn) {
 					formData.append("whatYouWillLearn", data.courseBenefits);
 				}
-				if (currentValues.courseCategory._id !== course.category._id) {
+				if (currentValues.courseCategory?._id !== course.category?._id) {
 					formData.append("category", data.courseCategory);
 				}
 				if (
@@ -232,9 +232,9 @@ const CourseInfo = () => {
 						</option>
 					))}
 					{errors.courseCategory && (
-						<span className="ml-2 text-xs tracking-wide text-pink-200">
+						<p className="ml-2 text-xs tracking-wide text-pink-200">
 							Course Category is required
-						</span>
+						</p>
 					)}
 				</select>
 			</div>
