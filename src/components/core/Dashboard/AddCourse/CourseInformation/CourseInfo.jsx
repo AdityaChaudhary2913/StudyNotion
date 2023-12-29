@@ -227,7 +227,7 @@ const CourseInfo = () => {
 						Choose a Category
 					</option>
 					{courseCategories.map((category, index) => (
-						<option key={index} value={category?.id}>
+						<option key={index} value={category?._id}>
 							{category?.name}
 						</option>
 					))}

@@ -52,7 +52,8 @@ exports.createCourse = async (req, res) => {
     }
 
     // Check given tag is valid or not
-    const categoryDetails = await Category.findOne({name:category})
+    // const categoryDetails = await Category.findOne({name:category})
+    const categoryDetails = await Category.findById(category)
     if(!categoryDetails){
       return res.status(404).json({
         success:false,
@@ -84,7 +85,7 @@ exports.createCourse = async (req, res) => {
     //Update the tag schema
     await Category.findByIdAndUpdate(
       {
-        _id:categoryDetails._id
+        _id:category
       },
       {
         $push: {courses:newCourse._id,}
@@ -132,6 +133,13 @@ exports.getCourseDetails = async (req, res) => {
   try{
     //Fetch id
     const {courseId}=req.body;
+
+    if(!courseId){
+      return res.status(400).json({
+        success:false,
+        message: "Please provide course id"
+      });
+    }
 
     //Find course details
     const courseDetails = await Course.findById({_id:courseId})
@@ -310,7 +318,7 @@ exports.editCourse = async (req, res) => {
     const { courseId } = req.body
     const updates = req.body
     const course = await Course.findById(courseId)
-
+    console.log("Updates->", updates)
     if (!course) {
       return res.status(404).json({ error: "Course not found" })
     }
@@ -331,6 +339,9 @@ exports.editCourse = async (req, res) => {
       if (updates.hasOwnProperty(key)) {
         if (key === "tag" || key === "instructions") {
           course[key] = JSON.parse(updates[key])
+          // if(key === "tag"){
+
+          // }
         } else {
           course[key] = updates[key]
         }

@@ -13,6 +13,7 @@
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.8.0",
+    "react-markdown": "^9.0.1",
     "react-otp-input": "^3.0.2",
     "react-progress-bar": "^0.1.0",
     "react-rating-stars-component": "^2.2.0",
