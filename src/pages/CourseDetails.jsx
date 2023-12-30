@@ -26,7 +26,7 @@ const CourseDetails = () => {
   const [response, setResponse] = useState(null)
   const [confirmationModal, setConfirmationModal] = useState(null)
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         const res = await fetchCourseDetails(courseId)
         setResponse(res)

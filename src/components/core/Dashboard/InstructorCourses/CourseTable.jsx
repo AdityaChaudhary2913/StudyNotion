@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { HiClock } from "react-icons/hi";
@@ -33,6 +33,9 @@ const CourseTable = ({ courses, setCourses }) => {
 		setConfirmationModal(null);
 		setLoading(false);
 	};
+	useEffect(() => {
+		console.log(courses)
+	}, [])
 	return (
 		<>
 			<Table className="rounded-xl border border-richblack-800">

@@ -44,7 +44,7 @@ exports.resetPasswordToken = async (req, res) => {
     );
 
     //creating url
-    const url=`http://localhost:3000/update-password/${token}`;
+    const url=`https://studynotion-edtech-aditya.vercel.app/update-password/${token}`;
 
     //Sending mail containing url
     await mailSender(
@@ -116,7 +116,7 @@ exports.resetPassword = async (req, res) => {
     console.log(err);
     return res.status(500).json({
       success:false,
-      message:"Some thing went wrong while reseting password"
+      message:"Some thing went wrong while resetting password"
     });
   }
 }
