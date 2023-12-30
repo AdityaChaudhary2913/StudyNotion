@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FiUploadCloud } from "react-icons/fi"
-import { Player } from "video-react"
+import { Player, BigPlayButton } from "video-react"
 
 const Upload = ({name, label, register, setValue, errors, editData = null, video = false, viewData = null}) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -48,7 +48,7 @@ const Upload = ({name, label, register, setValue, errors, editData = null, video
                   !video ? 
                     (<img src={previewSrc} alt='Preview' className="h-full w-full rounded-md object-cover" />)
                     : 
-                    (<Player aspectRatio="16:9" playsInline src={previewSrc} />)
+                    (<Player aspectRatio="16:9" playsInline src={previewSrc}><BigPlayButton position="center" /></Player>)
                 }
                 {
                   !viewData && (

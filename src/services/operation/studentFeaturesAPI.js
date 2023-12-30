@@ -162,7 +162,7 @@ export async function purchaseDirectly(bodyData, token, navigate, dispatch) {
     dispatch(resetCart())
   } catch (error) {
     console.log("PAYMENT VERIFY ERROR............", error)
-    toast.error("Could Not Verify Payment.")
+    toast.error(error.response.data.message)
   }
   toast.dismiss(toastId)
   dispatch(setPaymentLoading(false))

@@ -10,8 +10,9 @@ const EnrolledCourses = () => {
   const [enrolledCourses, setEnrolledCourses] = useState(null);
   const getEnrolledCourses = async () => {
     try{
-      const response = await getUserEnrolledCourses(token);
-      setEnrolledCourses(response);
+        const res = await getUserEnrolledCourses(token)
+        const filterPublishCourse = res.filter((ele) => ele.status !== "Draft")
+        setEnrolledCourses(filterPublishCourse)
     } catch(err){
       console.log('Error fetching enrolled courses', err);
     }
