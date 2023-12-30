@@ -372,11 +372,30 @@ exports.editCourse = async (req, res) => {
     // Update only the fields that are present in the request body
     for (const key in updates) {
       if (updates.hasOwnProperty(key)) {
+        if (key === "category"){
+          const categoryD = await Category.findById(updates[key])
+          if(!categoryD){
+            return res.status(404).json({
+              success:false,
+              message: "Category details not found"
+            });
+          }
+          //remove course from the category in which it was previously
+          const allCats = await Category.find({})
+          for (const cat of allCats) {
+            for (let i = 0; i < cat.courses.length; i++) {
+              if (cat.courses[i]._id.toString() === courseId.toString()) {
+                cat.courses.splice(i, 1);
+                await cat.save();
+              }
+            }
+          }
+          //add course from the given category
+          categoryD.courses.push(courseId)
+          await categoryD.save()
+        }
         if (key === "tag" || key === "instructions") {
           course[key] = JSON.parse(updates[key])
-          // if(key === "tag"){
-
-          // }
         } else {
           course[key] = updates[key]
         }
