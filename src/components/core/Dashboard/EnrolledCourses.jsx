@@ -13,9 +13,7 @@ const EnrolledCourses = () => {
         const res = await getUserEnrolledCourses(token)
         const filterPublishCourse = res.filter((ele) => ele.status !== "Draft")
         setEnrolledCourses(filterPublishCourse)
-    } catch(err){
-      console.log('Error fetching enrolled courses', err);
-    }
+    } catch(err){}
   }
   useEffect(()=> {
     getEnrolledCourses();

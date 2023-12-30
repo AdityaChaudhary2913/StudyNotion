@@ -148,7 +148,7 @@ async function sendPaymentSuccessEmail(response, amount, token) {
 			}
 		);
 	} catch (error) {
-		console.log("PAYMENT SUCCESS EMAIL ERROR............", error);
+		toast.error(error.response.data.message);
 	}
 }
 
@@ -171,7 +171,6 @@ export async function purchaseDirectly(bodyData, token, navigate, dispatch) {
 		navigate("/dashboard/enrolled-courses");
 		dispatch(resetCart());
 	} catch (error) {
-		console.log("PAYMENT VERIFY ERROR............", error);
 		toast.error(error.response.data.message);
 	}
 	toast.dismiss(toastId);

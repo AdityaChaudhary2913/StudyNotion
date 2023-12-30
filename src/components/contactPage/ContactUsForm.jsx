@@ -13,14 +13,10 @@ const ContactUsForm = () => {
     formState: { errors, isSubmitSuccessfull }
   } = useForm();
   const submitForm = async (data) => {
-    console.log("Logging Data", data)
     try{
-      const response = await apiConnector("POST", contactusEndpoint.CONTACT_US_API, data);
-      console.log("Logging response", response);
+      await apiConnector("POST", contactusEndpoint.CONTACT_US_API, data);
       toast.success("Message Sent");
     } catch(err){
-        console.log("Error: ", err)
-        console.log("Error while submitting form!");
         toast.error("Unable to send message");
     }
   }

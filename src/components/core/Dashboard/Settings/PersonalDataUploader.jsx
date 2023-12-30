@@ -16,9 +16,7 @@ const PersonalDataUploader = () => {
   const submitForm = async (formdata) => {
     try{
       dispatch(updateProfile(token, formdata))
-    } catch(err){
-      console.log('Error updating profile', err);
-    }
+    } catch(err){}
   }
   return (
     <form onSubmit={handleSubmit(submitForm)}>

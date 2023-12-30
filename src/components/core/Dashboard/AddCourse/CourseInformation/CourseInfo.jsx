@@ -135,7 +135,6 @@ const CourseInfo = () => {
 			setLoading(false)
 		}	catch(err){
 			setLoading(false)
-			console.log('Error in adding Course', err)
 		}
 	};
 	return (

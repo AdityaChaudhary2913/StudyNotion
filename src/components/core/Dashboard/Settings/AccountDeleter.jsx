@@ -11,9 +11,7 @@ const AccountDeleter = () => {
   async function handleDeleteAccount(){
     try{
       dispatch(deleteProfile(token, navigate))
-    } catch(err){
-      console.log("Error while deleting user", err);
-    }
+    } catch(err){}
   }
   return (
     <div className="my-10 flex flex-row gap-x-5 rounded-md border-[1px] border-pink-700 bg-pink-900 p-8 px-12">

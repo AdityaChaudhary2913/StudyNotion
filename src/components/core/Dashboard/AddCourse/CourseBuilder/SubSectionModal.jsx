@@ -37,9 +37,7 @@ const SubSectionModal = ({modalData, setModalData, add = false, view = false, ed
 
   const handleEditSubsection = async () => {
     const currentValues = getValues()
-    // console.log("changes after editing form values:", currentValues)
     const formData = new FormData()
-    // console.log("Values After Editing form values:", currentValues)
     formData.append("sectionId", modalData.sectionId)
     formData.append("subSectionId", modalData._id)
     if (currentValues.lectureTitle !== modalData.title) {
@@ -54,8 +52,6 @@ const SubSectionModal = ({modalData, setModalData, add = false, view = false, ed
     setLoading(true)
     const result = await updateSubSection(formData, token)
     if (result) {
-      // console.log("result", result)
-      // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === modalData.sectionId ? result : section
       )

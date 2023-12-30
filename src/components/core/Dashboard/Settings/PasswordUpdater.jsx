@@ -16,9 +16,7 @@ const PasswordUpdater = () => {
   const formSubmit = async (data) => {
     try{
       await updatePassword(token, data)
-    } catch(err){
-      console.log("ERROR MESSAGE - IN frontend", err)
-    }
+    } catch(err){}
   }
   return (
     <form onSubmit={handleSubmit(formSubmit)}>

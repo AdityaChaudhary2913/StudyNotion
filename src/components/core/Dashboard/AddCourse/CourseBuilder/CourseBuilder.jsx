@@ -77,7 +77,6 @@ const CourseBuilder = () => {
 		} catch (err) {
 			setLoading(false);
 			toast.error(err.message);
-			console.log(err);
 		}
 	};
 

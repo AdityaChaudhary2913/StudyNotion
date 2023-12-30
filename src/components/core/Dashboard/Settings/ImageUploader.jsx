@@ -33,9 +33,7 @@ const ImageUploader = () => {
       const formData = new FormData()
       formData.append("displayPicture", imgFile)
       dispatch(updateDP(token, formData))
-    } catch(err){
-      console.log("ERROR MESSAGE - ", err.message)
-    }
+    } catch(err){}
   }
   const handleClick = () => {
     fileInputRef.current.click();
