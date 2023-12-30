@@ -243,7 +243,6 @@ exports.purchaseDirectly = async (req, res) => {
     }
   }
 
-
   try {
     // Find the course and enroll the student in it
     const enrolledCourse = await Course.findOneAndUpdate(
