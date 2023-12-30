@@ -19,8 +19,6 @@ export function updateProfile(token, formdata){
       const userImage = response.data.profile.image
         ? response.data.profile.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.profile.firstName} ${response.data.profile.lastName}`
-      console.log("Response is below")
-      console.log(response.data.profile)
       dispatch(setUser(response.data.profile))
       localStorage.setItem("user", JSON.stringify({...response.data.profile, additionalDetail:response.data.additionalDetail, image:userImage}))
       toast.success("Profile Updated Successfully")
@@ -37,10 +35,6 @@ export function updateDP(token, formdata){
     const toastId = toast.loading("Loading...")
     try{
       const response = await apiConnector("PUT", UPDATE_DISPLAY_PICTURE_API, formdata, {"Content-Type": "multipart/form-data", Authorization: `Bearer ${token}`})
-      console.log(
-        "UPDATE_DISPLAY_PICTURE_API API RESPONSE............",
-        response
-      )
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
@@ -57,12 +51,7 @@ export function updateDP(token, formdata){
 export async function updatePassword(token, formdata){
     const toastId = toast.loading("Loading...")
     try{
-      const response = await apiConnector("POST", CHANGE_PASSWORD_API, formdata, {Authorization: `Bearer ${token}`})
-      console.log("CHANGE_PASSWORD_API API RESPONSE............", response)
-      // if (!response.data.success) {
-      //   throw new Error(response.data.message)
-      // }
-      console.log('end')
+      await apiConnector("POST", CHANGE_PASSWORD_API, formdata, {Authorization: `Bearer ${token}`})
       toast.success("Password Changed Successfully")
     } catch(err){
       console.log("CHANGE_PASSWORD_API API ERROR............", err)
@@ -75,11 +64,9 @@ export function deleteProfile(token, navigate){
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     try{
-      const response = await apiConnector("DELETE", DELETE_PROFILE_API, null, {Authorization: `Bearer ${token}`})
-      console.log("DELETE_PROFILE_API API RESPONSE............", response)
+      await apiConnector("DELETE", DELETE_PROFILE_API, null, {Authorization: `Bearer ${token}`})
       toast.success("Proifle deleted Successfully")
       dispatch(logout(navigate))
-      
     } catch(err){
       console.log("DELETE_PROFILE_API API ERROR............", err)
       toast.error(err.response.data.message)
