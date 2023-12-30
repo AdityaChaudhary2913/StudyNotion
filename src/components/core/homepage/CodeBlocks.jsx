@@ -26,7 +26,8 @@ const CodeBlocks = ({position, heading, subheading, ctabtn1, ctabtn2, codeblock,
       </div>
 
       {/* Section 2 */}
-      <div className='h-fit flex flex-row text-[15px] w-[100%] py-4 lg:w-[500px]'>
+      <div className='h-fit code-border flex flex-row py-3 text-[10px] sm:text-sm leading-[18px] sm:leading-6 relative w-[100%] lg:w-[470px]'>
+        {backgroundGradient}
         <div className='flex flex-col text-center w-[10%] text-richblack-400 font-inter font-bold'>
           <p>1</p>
           <p>2</p>

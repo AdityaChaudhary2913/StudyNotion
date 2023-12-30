@@ -8,6 +8,7 @@ import Quote from "../components/core/aboutPage/Quote"
 import StaticComponent from "../components/core/aboutPage/StaticComponent"
 import LearningGrid from '../components/core/aboutPage/LearningGrid'
 import ContactFormSection from '../components/core/aboutPage/ContactFormSection'
+import ReviewSlider from '../components/common/ReviewSlider'
 
 const About = () => {
   return (
@@ -101,6 +102,12 @@ const About = () => {
         <LearningGrid />
         <ContactFormSection />
       </section>
+      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+        <h1 className="text-center text-4xl font-semibold mt-8">
+          Reviews from other learners
+        </h1>
+        <ReviewSlider />
+      </div>
     </div>
   )
 }

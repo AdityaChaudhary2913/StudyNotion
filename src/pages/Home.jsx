@@ -9,8 +9,7 @@ import TimelineSection from '../components/core/homepage/TimelineSection';
 import LearningLanguageSection from '../components/core/homepage/LearningLanguageSection';
 import InstructorSection from '../components/core/homepage/InstructorSection';
 import ExploreMore from '../components/core/homepage/ExploreMore';
-
-
+import ReviewSlider from '../components/common/ReviewSlider';
 
 const Home = () => {
   return (
@@ -64,6 +63,7 @@ const Home = () => {
               }
             }
             codeblock={`<!DOCTYPE html>\n<html>\nhead><title>Example</\ntitle><linkrel="stylesheet"href="styles.css">\n</head>\n<body>\nh1><ahref="/">Header</a>\n/h1>\nnav><ahref="one/">One</a><ahref="two/">Two</\na><ahref="three/">Three</a>\n/nav>`}
+            backgroundGradient={<div className="codeblock1 absolute"></div>}
           />
         </div>
 
@@ -88,6 +88,7 @@ const Home = () => {
               }
             }
             codeblock={`<!DOCTYPE html>\n<html>\nhead><title>Example</\ntitle><linkrel="stylesheet"href="styles.css">\n</head>\n<body>\nh1><ahref="/">Header</a>\n/h1>\nnav><ahref="one/">One</a><ahref="two/">Two</\na><ahref="three/">Three</a>\n/nav>`}
+            backgroundGradient={<div className="codeblock2 absolute"></div>}
           />
         </div>
 
@@ -134,6 +135,7 @@ const Home = () => {
         <h2 className="text-center text-4xl font-semobold mt-10">
 					Reviews from Other Learners
 				</h2>
+        <ReviewSlider />
       </div>
     </div>
   )
