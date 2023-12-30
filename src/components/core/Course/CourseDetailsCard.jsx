@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { addToCart } from "../../../slices/cartSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
+import { addCart } from "../../../services/operation/courseDetailAPI"
 
 const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) => {
   const { user } = useSelector((state) => state.profile)
@@ -25,12 +26,13 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
     toast.success("Link copied to clipboard")
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
       toast.error("You are an Instructor. You can't buy a course.")
       return
     }
     if (token) {
+      await addCart({courseId}, token)
       dispatch(addToCart(course))
       return
     }

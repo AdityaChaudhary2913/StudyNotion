@@ -9,6 +9,7 @@ import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { apiConnector } from "../../services/apiConnector";
 import { categories } from "../../services/apis";
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const {token} = useSelector((state) => state.auth);
@@ -22,7 +23,7 @@ const Navbar = () => {
       const result = await apiConnector("GET", categories.CATEGORIES_API);
 			setSubLinks(result.data.data);
     } catch(err){
-      console.log("Error while fetching categories in nav bar");
+      toast.error("Can't fetch Categories!")
     }
   }
   useEffect(() => {
@@ -34,7 +35,7 @@ const Navbar = () => {
   return (
     <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700'>
       <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
-        <Link to="/"><img src={logo}/></Link>
+        <Link to="/"><img src={logo} alt=''/></Link>
         <nav>
           <ul className='flex gap-x-6 text-richblack-25'>
             {

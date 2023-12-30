@@ -31,6 +31,7 @@ const {
 } = require("../controllers/RatingAndReview")
 const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth")
 const { updateCourseProgress } = require("../controllers/courseProgress")
+const { addToCart, removeFromCart } = require("../controllers/Cart")
 
 router.post("/createCourse", auth, isInstructor, createCourse)
 router.post("/addSection", auth, isInstructor, createSection)
@@ -54,5 +55,8 @@ router.post("/getCategoryPageDetails", categoryPageDetails)
 router.post("/createRating", auth, isStudent, createRating)
 router.get("/getAverageRating", getAverageRating)
 router.get("/getReviews", getAllRating)
+
+router.post("/addToCart", auth, isStudent, addToCart)
+router.post("/removeFromCart", auth, isStudent, removeFromCart)
 
 module.exports = router

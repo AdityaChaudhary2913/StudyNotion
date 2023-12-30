@@ -55,7 +55,11 @@ const userSchema= new mongoose.Schema({
   courseProgress: [{
     type:mongoose.Schema.Types.ObjectId,
     ref:"CourseProgress",
-  }]
+  }],
+  cart: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Cart",
+  }
   }
 )
 module.exports=mongoose.model("User", userSchema);

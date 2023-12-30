@@ -18,6 +18,8 @@ const {
   GET_FULL_COURSE_DETAILS_AUTHENTICATED,
   CREATE_RATING_API,
   LECTURE_COMPLETION_API,
+  ADD_TO_CART,
+  REMOVE_FROM_CART
 } = courseEndpoints
 export const getAllCourses = async () => {
   const toastId = toast.loading("Loading...")
@@ -339,3 +341,45 @@ export const createRating = async (data, token) => {
   toast.dismiss(toastId)
   return success
 }
+
+export const addCart = async (data, token) => {
+  const toastId = toast.loading("Loading...")
+  let success = false
+  try {
+    const response = await apiConnector("POST", ADD_TO_CART, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add To Cart")
+    }
+    console.log(response)
+    toast.success("Added To Cart")
+    success = true
+  } catch (error) {
+    success = false
+    toast.error(error.response.data.message)
+  }
+  toast.dismiss(toastId)
+  return success
+}
+
+export const removeCart = async (data, token) => {
+  const toastId = toast.loading("Loading...")
+  let success = false
+  try {
+    const response = await apiConnector("POST", REMOVE_FROM_CART, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    if (!response?.data?.success) {
+      throw new Error("Could Not Remove from Cart")
+    }
+    toast.success("Removed From Cart")
+    success = true
+  } catch (error) {
+    success = false
+    toast.error(error.response.data.message)
+  }
+  toast.dismiss(toastId)
+  return success
+}
+
