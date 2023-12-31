@@ -26,14 +26,25 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
     toast.success("Link copied to clipboard")
   }
 
+  const buyFinal = async () => {
+    await addCart({courseId}, token)
+    dispatch(addToCart(course))
+  }
+
   const handleAddToCart = async () => {
     if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
       toast.error("You are an Instructor. You can't buy a course.")
       return
     }
     if (token) {
-      await addCart({courseId}, token)
-      dispatch(addToCart(course))
+      setConfirmationModal({
+        text1: "Click on Buy to Complete your purchase",
+        text2: "This will deduct required amount of money from your balance",
+        btn1Text: "Buy",
+        btn2Text: "Cancel",
+        btn1Handler: () => buyFinal(),
+        btn2Handler: () => setConfirmationModal(null),
+      })
       return
     }
     setConfirmationModal({
