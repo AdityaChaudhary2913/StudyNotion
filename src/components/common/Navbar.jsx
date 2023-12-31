@@ -3,6 +3,7 @@ import { Link, matchPath } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { NavbarLinks } from "../../data/navbar-links";
 import { MobNavbarLinks } from "../../data/mobnavlinks";
+import { TokenMobNavbarLinks } from "../../data/withTokenMobNavLinks"
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsChevronDown } from "react-icons/bs";
@@ -148,8 +149,9 @@ function Navbar() {
 							!toggle ? "hidden" : "flex"
 						} p-6 black-gradient absolute bg-[rgb(5,8,22)] top-[35px] right-0 mx-4 my-2 min-w-[140px] z-50 rounded-xl`}>
 						<ul className="list-none flex justify-end items-start flex-col gap-4">
-							{MobNavbarLinks.map((link, index) => (
-								<>
+              {
+                token ? (<>{TokenMobNavbarLinks.map((link, index) => (
+                  <>
 										<li
 											key={index}
 											className={`${
@@ -161,8 +163,24 @@ function Navbar() {
 											}}>
 											<a href={link?.path}>{link.title}</a>
 										</li>
-								</>
-							))}
+                  </>
+							))}</>) : (<>{MobNavbarLinks.map((link, index) => (
+                  <>
+										<li
+											key={index}
+											className={`${
+												active === link.title ? "text-white" : "text-secondary"
+											} font-poppins text-[16px] font-medium cursor-pointer`}
+											onClick={() => {
+												setActive(link.title);
+												setToggle(!toggle);
+											}}>
+											<a href={link?.path}>{link.title}</a>
+										</li>
+                  </>
+							))}</>)
+              }
+							
 						</ul>
 					</div>
 				</div>
