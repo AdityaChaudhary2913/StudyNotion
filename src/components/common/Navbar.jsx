@@ -14,6 +14,7 @@ import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
 import { apiConnector } from "../../services/apiConnector";
 import { categories } from "../../services/apis";
 import { logout } from "../../services/operation/authAPI";
+import ConfirmationModel from "./ConfirmationModel";
 
 function Navbar() {
 	const { token } = useSelector((state) => state.auth);
@@ -27,6 +28,11 @@ function Navbar() {
 	const [subLinks, setSubLinks] = useState([]);
 	const [loading, setLoading] = useState(false);
   const [confirmationModel, setConfirmationModel] = useState(null);
+
+  const bbtn1Hnad = () => {
+    dispatch(logout(navigate))
+    setConfirmationModel(null)
+  }
 
 	useEffect(() => {
 		(async () => {
@@ -165,14 +171,12 @@ function Navbar() {
 																text2: "You will be logged out of your account.",
 																btn1Text: "Logout",
 																btn2Text: "Cancel",
-																btn1Handler: () => dispatch(logout(navigate)),
+																btn1Handler: () => bbtn1Hnad(),
 																btn2Handler: () => setConfirmationModel(null),
 															})
 														}
-														className="px-8 py-2 text-sm font-medium text-richblack-300">
-														<div className="flex items-center">
+														className="text-[16px] font-poppins text-white font-medium cursor-pointer">
 															<span>Logout</span>
-														</div>
 													</button>
 												</>
 											) : (
@@ -218,6 +222,7 @@ function Navbar() {
 					</div>
 				</div>
 			</div>
+      {confirmationModel && <ConfirmationModel modelData={confirmationModel} />}
 		</div>
 	);
 }
