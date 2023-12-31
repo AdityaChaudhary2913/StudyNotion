@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, matchPath } from "react-router-dom";
+import { Link, matchPath, useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo/Logo-Full-Light.png";
 import { NavbarLinks } from "../../data/navbar-links";
 import { MobNavbarLinks } from "../../data/mobnavlinks";
-import { TokenMobNavbarLinks } from "../../data/withTokenMobNavLinks"
+import { TokenMobNavbarLinks } from "../../data/withTokenMobNavLinks";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BsChevronDown } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import { ACCOUNT_TYPE } from "../../utils/constants";
@@ -13,6 +13,7 @@ import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
 import { apiConnector } from "../../services/apiConnector";
 import { categories } from "../../services/apis";
+import { logout } from "../../services/operation/authAPI";
 
 function Navbar() {
 	const { token } = useSelector((state) => state.auth);
@@ -21,9 +22,11 @@ function Navbar() {
 	const location = useLocation();
 	const [active, setActive] = useState("");
 	const [toggle, setToggle] = useState(false);
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 	const [subLinks, setSubLinks] = useState([]);
 	const [loading, setLoading] = useState(false);
+  const [confirmationModel, setConfirmationModel] = useState(null);
 
 	useEffect(() => {
 		(async () => {
@@ -149,38 +152,68 @@ function Navbar() {
 							!toggle ? "hidden" : "flex"
 						} p-6 black-gradient absolute bg-[rgb(5,8,22)] top-[35px] right-0 mx-4 my-2 min-w-[140px] z-50 rounded-xl`}>
 						<ul className="list-none flex justify-end items-start flex-col gap-4">
-              {
-                token ? (<>{TokenMobNavbarLinks.map((link, index) => (
-                  <>
-										<li
-											key={index}
-											className={`${
-												active === link.title ? "text-white" : "text-secondary"
-											} font-poppins text-[16px] font-medium cursor-pointer`}
-											onClick={() => {
-												setActive(link.title);
-												setToggle(!toggle);
-											}}>
-											<a href={link?.path}>{link.title}</a>
-										</li>
-                  </>
-							))}</>) : (<>{MobNavbarLinks.map((link, index) => (
-                  <>
-										<li
-											key={index}
-											className={`${
-												active === link.title ? "text-white" : "text-secondary"
-											} font-poppins text-[16px] font-medium cursor-pointer`}
-											onClick={() => {
-												setActive(link.title);
-												setToggle(!toggle);
-											}}>
-											<a href={link?.path}>{link.title}</a>
-										</li>
-                  </>
-							))}</>)
-              }
-							
+							{token ? (
+								<>
+									{TokenMobNavbarLinks.map((link, index) => (
+										<>
+											{link.title === "Logout" ? (
+												<>
+													<button
+														onClick={() =>
+															setConfirmationModel({
+																text1: "Are you sure?",
+																text2: "You will be logged out of your account.",
+																btn1Text: "Logout",
+																btn2Text: "Cancel",
+																btn1Handler: () => dispatch(logout(navigate)),
+																btn2Handler: () => setConfirmationModel(null),
+															})
+														}
+														className="px-8 py-2 text-sm font-medium text-richblack-300">
+														<div className="flex items-center">
+															<span>Logout</span>
+														</div>
+													</button>
+												</>
+											) : (
+												<li
+													key={index}
+													className={`${
+														active === link.title
+															? "text-white"
+															: "text-secondary"
+													} font-poppins text-[16px] font-medium cursor-pointer`}
+													onClick={() => {
+														setActive(link.title);
+														setToggle(!toggle);
+													}}>
+													<a href={link?.path}>{link.title}</a>
+												</li>
+											)}
+										</>
+									))}
+								</>
+							) : (
+								<>
+									{MobNavbarLinks.map((link, index) => (
+										<>
+											<li
+												key={index}
+												className={`${
+													active === link.title
+														? "text-white"
+														: "text-secondary"
+												} font-poppins text-[16px] font-medium cursor-pointer`}
+												onClick={() => {
+													setActive(link.title);
+													setToggle(!toggle);
+												}}>
+												<a href={link?.path}>{link.title}</a>
+											</li>
+										</>
+									))}
+								</>
+							)}
 						</ul>
 					</div>
 				</div>
