@@ -10,7 +10,7 @@ const Myprofile = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">My Profile</h1>
+      <h1 className="mb-8 sm:mb-10 text-center text-5xl font-medium text-richblack-5">My Profile</h1>
       <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-4 sm:p-8 sm:px-12">
         <div className="flex items-center gap-x-1">
           <img src={user?.image} alt={`profile-${user?.firstName}`} className="aspect-square w-[45px] sm:w-[78px] rounded-full object-cover"/>
