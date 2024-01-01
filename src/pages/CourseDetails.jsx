@@ -87,7 +87,14 @@ const CourseDetails = () => {
   const handleBuyCourse = async () => {
     if (token) {
       // await BuyCourse(token, [courseId], user, navigate, dispatch)
-      await purchaseDirectly({courseId}, token, navigate, dispatch)
+      setConfirmationModal({
+        text1: "Click on buy to confirm",
+        text2: "Required money will be deducted!",
+        btn1Text: "Buy",
+        btn2Text: "Cancel",
+        btn1Handler: () => purchaseDirectly({courseId}, token, navigate, dispatch),
+        btn2Handler: () => setConfirmationModal(null),
+      })
       return
     }
     setConfirmationModal({
