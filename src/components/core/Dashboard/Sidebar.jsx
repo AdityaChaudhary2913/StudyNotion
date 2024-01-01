@@ -1,18 +1,15 @@
-import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { sidebarLinks } from '../../../data/dashboard-links';
 import SidebarLinks from './SidebarLinks';
 import { VscSignOut } from "react-icons/vsc"
 import { logout } from "../../../services/operation/authAPI"
-import ConfirmationModel from "../../common/ConfirmationModel"
 
 const Sidebar = ({toggle, setConfirmationModel}) => {
   const { user, loading: profileLoading } = useSelector((state) => state.profile);
   const { loading: authLoading } = useSelector((state)=> state.auth);
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // const [confirmationModel, setConfirmationModel] = useState(null);
   if (profileLoading || authLoading) {
     return (
       <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-richblack-700 bg-richblack-800">
@@ -59,7 +56,6 @@ const Sidebar = ({toggle, setConfirmationModel}) => {
           </button>
         </div>
       </div>
-      {/* {confirmationModel && <ConfirmationModel modelData={confirmationModel} />} */}
     </div>
   )
 }

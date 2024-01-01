@@ -21,18 +21,18 @@ function Navbar() {
 	const { user } = useSelector((state) => state.profile);
 	const { totalItems } = useSelector((state) => state.cart);
 	const location = useLocation();
-	const [active, setActive] = useState("");
 	const [toggle, setToggle] = useState(false);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+	const [toggleSub, setToggleSub] = useState(false);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [subLinks, setSubLinks] = useState([]);
 	const [loading, setLoading] = useState(false);
-  const [confirmationModel, setConfirmationModel] = useState(null);
+	const [confirmationModel, setConfirmationModel] = useState(null);
 
-  const bbtn1Hnad = () => {
-    dispatch(logout(navigate))
-    setConfirmationModel(null)
-  }
+	const bbtn1Hnad = () => {
+		dispatch(logout(navigate));
+		setConfirmationModel(null);
+	};
 
 	useEffect(() => {
 		(async () => {
@@ -143,6 +143,7 @@ function Navbar() {
 					)}
 					{token !== null && <ProfileDropDown />}
 				</div>
+				{/* Mobile nav bar */}
 				<div
 					className="sm:hidden flex flex-1 justify-end items-center text-white"
 					onClick={() => setToggle(!toggle)}>
@@ -168,7 +169,8 @@ function Navbar() {
 														onClick={() =>
 															setConfirmationModel({
 																text1: "Are you sure?",
-																text2: "You will be logged out of your account.",
+																text2:
+																	"You will be logged out of your account.",
 																btn1Text: "Logout",
 																btn2Text: "Cancel",
 																btn1Handler: () => bbtn1Hnad(),
@@ -176,22 +178,67 @@ function Navbar() {
 															})
 														}
 														className="text-[16px] font-poppins text-white font-medium cursor-pointer">
-															<span>Logout</span>
+														<span>Logout</span>
 													</button>
+												</>
+											) : link?.title === "Catalog" ? (
+												<>
+													<div
+														onClick={(e) => {
+															e.stopPropagation();
+															setToggleSub(!toggleSub);
+														}}
+														className={`flex gap-1 ${
+															matchRoute("/catalog/:catalogName")
+																? "text-yellow-25"
+																: "text-richblack-25"
+														} flex flex-col`}>
+														<div className="flex items-center justify-center gap-1">
+															<p>{link.title}</p>
+															<BsChevronDown />
+														</div>
+														<div
+															className={`${
+																!toggleSub ? "hidden" : "block"
+															} sm:hidden border p-2 flex-col rounded-lg text-richblack-5 bg-richblack-900`}>
+															{loading ? (
+																<p className="text-center">Loading...</p>
+															) : subLinks?.length ? (
+																<>
+																	{subLinks?.map((subLink, i) => (
+																		<Link
+																			onClick={() => {
+																				setToggleSub(!toggleSub);
+																				setToggle(!toggle);
+																			}}
+																			to={`/catalog/${subLink.name
+																				.split(" ")
+																				.join("-")
+																				.toLowerCase()}`}
+																			className="rounded-lg bg-transparent"
+																			key={i}>
+																			<p>{subLink.name}</p>
+																		</Link>
+																	))}
+																</>
+															) : (
+																<p className="text-center">No Courses Found</p>
+															)}
+														</div>
+													</div>
 												</>
 											) : (
 												<li
 													key={index}
 													className={`${
-														active === link.title
-															? "text-white"
-															: "text-secondary"
+														matchRoute(link?.path)
+															? "text-yellow-25"
+															: "text-richblack-25"
 													} font-poppins text-[16px] font-medium cursor-pointer`}
 													onClick={() => {
-														setActive(link.title);
 														setToggle(!toggle);
 													}}>
-													<a href={link?.path}>{link.title}</a>
+													<Link to={link?.path}>{link.title}</Link>
 												</li>
 											)}
 										</>
@@ -201,19 +248,68 @@ function Navbar() {
 								<>
 									{MobNavbarLinks.map((link, index) => (
 										<>
-											<li
-												key={index}
-												className={`${
-													active === link.title
-														? "text-white"
-														: "text-secondary"
-												} font-poppins text-[16px] font-medium cursor-pointer`}
-												onClick={() => {
-													setActive(link.title);
-													setToggle(!toggle);
-												}}>
-												<a href={link?.path}>{link.title}</a>
-											</li>
+											{link?.title === "Catalog" ? (
+												<>
+													<div
+														onClick={(e) => {
+															e.stopPropagation();
+															setToggleSub(!toggleSub);
+														}}
+														className={`flex gap-1 ${
+															matchRoute("/catalog/:catalogName")
+																? "text-yellow-25"
+																: "text-richblack-25"
+														} flex flex-col`}>
+														<div className="flex items-center justify-center gap-1">
+															<p>{link.title}</p>
+															<BsChevronDown />
+														</div>
+														<div
+															className={`${
+																!toggleSub ? "hidden" : "block"
+															} sm:hidden border p-2 flex-col rounded-lg text-richblack-5 bg-richblack-900`}>
+															{loading ? (
+																<p className="text-center">Loading...</p>
+															) : subLinks?.length ? (
+																<>
+																	{subLinks?.map((subLink, i) => (
+																		<Link
+																			onClick={() => {
+																				setToggleSub(!toggleSub);
+																				setToggle(!toggle);
+																			}}
+																			to={`/catalog/${subLink.name
+																				.split(" ")
+																				.join("-")
+																				.toLowerCase()}`}
+																			className="rounded-lg bg-transparent"
+																			key={i}>
+																			<p>{subLink.name}</p>
+																		</Link>
+																	))}
+																</>
+															) : (
+																<p className="text-center">No Courses Found</p>
+															)}
+														</div>
+													</div>
+												</>
+											) : (
+												<>
+													<li
+														key={index}
+														className={`${
+															matchRoute(link?.path)
+																? "text-yellow-25"
+																: "text-richblack-25"
+														} font-poppins text-[16px] font-medium cursor-pointer`}
+														onClick={() => {
+															setToggle(!toggle);
+														}}>
+														<Link to={link?.path}>{link.title}</Link>
+													</li>
+												</>
+											)}
 										</>
 									))}
 								</>
@@ -222,131 +318,9 @@ function Navbar() {
 					</div>
 				</div>
 			</div>
-      {confirmationModel && <ConfirmationModel modelData={confirmationModel} />}
+			{confirmationModel && <ConfirmationModel modelData={confirmationModel} />}
 		</div>
 	);
 }
 
 export default Navbar;
-
-// const Navbar = () => {
-//   const {token} = useSelector((state) => state.auth);
-//   const {user} = useSelector((state) => state.profile);
-//   const {totalItems} = useSelector((state) => state.cart);
-//   const location = useLocation();
-//   const [toggle, setToggle] = useState(false);
-//   const [active, setActive] = useState("");
-
-//   const [subLinks, setSubLinks] = useState([]);
-//   const fetchSubLinks = async () => {
-//     try{
-//       const result = await apiConnector("GET", categories.CATEGORIES_API);
-// 			setSubLinks(result.data.data);
-//     } catch(err){
-//       toast.error("Can't fetch Categories!")
-//     }
-//   }
-//   useEffect(() => {
-//     fetchSubLinks();
-//   }, []);
-//   const matchRoute = (route) => {
-// 		return matchPath({ path: route }, location.pathname);
-// 	};
-//   return (
-//     <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700'>
-//       <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
-//         <Link to="/"><img src={logo} alt=''/></Link>
-//         <nav>
-//           <ul className='flex gap-x-6 text-richblack-25'>
-//             {
-//               NavbarLinks.map( (link, index) => (
-//                 <li key={index}>
-//                   {
-//                     link.title === "Catalog" ?
-//                     (<div className='flex relative z-30 gap-2 items-center group'>
-//                       <p>{link.title}</p>
-//                       <IoIosArrowDropdownCircle />
-//                       <div className="invisible absolute left-0 top-[170%] flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
-//                                 opacity-0 transition-all duration-200 group-hover:visible
-//                                 group-hover:opacity-100 lg:w-[220px]">
-//                           <div className="absolute left-[50%] top-0 translate-x-[-380%]
-//                                 translate-y-[-30%] h-6 w-6 rotate-45 rounded bg-richblack-5">
-//                           </div>
-//                           {
-//                             subLinks.length ? (
-//                               subLinks?.map( (subLink, index) => (
-//                                 <Link to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`} key={index} className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50'>
-//                                   <p>{subLink.name}</p>
-//                                 </Link>
-//                               ) )
-//                             ) : (<div></div>)
-//                           }
-//                       </div>
-//                     </div>)
-//                     :
-//                     (<div>
-//                       <Link to={link?.path}>
-//                         <p className={`${matchRoute(link?.path) ? "text-yellow-25" : "text-richblack-25"}`}>
-//                           {link.title}
-//                         </p>
-//                         </Link>
-//                     </div>)
-//                   }
-//                 </li>
-//               ) )
-//             }
-//           </ul>
-//         </nav>
-//         <div className="hidden md:flex gap-x-4 items-center">
-//           {
-//             user &&
-//             user?.accountType !== "Instructor" &&
-//             (<Link to='/dashboard/cart' className='relative'>
-//               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
-//               {totalItems > 0 && (
-//                 <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
-//                   {totalItems}
-//                 </span>
-//               )}
-//             </Link>)
-//           }
-//           {
-//             token === null && (
-//               <Link to='/login'>
-//                 <button className="border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md">
-//                   Log in
-//                 </button>
-//               </Link>
-//             )
-//           }
-//           {
-//             token === null && (
-//               <Link to='/signup'>
-//                 <button className="border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md">
-//                   Sign Up
-//                 </button>
-//               </Link>
-//             )
-//           }
-//           {token !== null && <ProfileDropDown />}
-//         </div>
-//         {/* <div className='sm:hidden flex flex-1 justify-end items-center text-white'>
-//           <img src={toggle ? close : menu} className='w-[28px] h-[28px] object-contain cursor-pointer' onClick={() => setToggle(!toggle)} alt='' />
-//           <div className={`${!toggle ? "hidden" : "flex"} p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}>
-//             <ul className='list-none flex justify-end items-start flex-col gap-4'>
-//               {
-//                 NavbarLinks.map((link) => (
-//                   <li key={link.id} className={`${active === link.title ? "text-white" : "text-secondary"} font-poppins text-[16px] font-medium cursor-pointer`} onClick={() => {setActive(link.title); setToggle(!toggle)}}>
-//                     <a href={link?.path}>{link.title}</a>
-//                   </li>
-//                 ))
-//               }
-//             </ul>
-//           </div>
-//         </div> */}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Navbar
