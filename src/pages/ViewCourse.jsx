@@ -35,11 +35,11 @@ const ViewCourse = () => {
         </div>
         <div className='sm:hidden absolute p-2 flex flex-1 justify-end items-center text-white'>
           {!toggle ? (
-						<div className="object-contain cursor-pointer">
+						<div className="object-contain cursor-pointer" onClick={() => setToggle(!toggle)}>
 							<AiOutlineMenu fontSize={23} fill="#AFB2BF" />
 						</div>
 					) : (
-            <div className="object-contain cursor-pointer absolute z-50 top-4 left-4">
+            <div className="object-contain cursor-pointer absolute z-50 top-2 left-2" onClick={() => setToggle(!toggle)}>
               <IoCloseSharp fontSize={25} fill="#AFB2BF" />
             </div>
 					)}
