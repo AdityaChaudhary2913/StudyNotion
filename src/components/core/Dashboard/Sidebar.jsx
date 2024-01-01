@@ -7,12 +7,12 @@ import { VscSignOut } from "react-icons/vsc"
 import { logout } from "../../../services/operation/authAPI"
 import ConfirmationModel from "../../common/ConfirmationModel"
 
-const Sidebar = () => {
+const Sidebar = ({toggle, setConfirmationModel}) => {
   const { user, loading: profileLoading } = useSelector((state) => state.profile);
   const { loading: authLoading } = useSelector((state)=> state.auth);
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [confirmationModel, setConfirmationModel] = useState(null);
+  // const [confirmationModel, setConfirmationModel] = useState(null);
   if (profileLoading || authLoading) {
     return (
       <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-richblack-700 bg-richblack-800">
@@ -22,7 +22,7 @@ const Sidebar = () => {
   }
   return (
     <div>
-      <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10">
+      <div className={`flex ${toggle ? "" : "h-[calc(100vh-3.5rem)]"}  min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10`}>
         <div className="flex flex-col">
           {
             sidebarLinks.map((link) => {
@@ -59,7 +59,7 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
-      {confirmationModel && <ConfirmationModel modelData={confirmationModel} />}
+      {/* {confirmationModel && <ConfirmationModel modelData={confirmationModel} />} */}
     </div>
   )
 }
