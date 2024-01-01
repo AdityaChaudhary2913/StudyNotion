@@ -19,7 +19,7 @@ const Dashboard = () => {
   return (
     <div className="relative flex min-h-[calc(100vh-3.5rem)] text-white">
       <div className='hidden sm:block'>
-        <Sidebar toggle="" setConfirmationModel="" />
+        <Sidebar toggle="" setConfirmationModel={setConfirmationModel} />
       </div>
       <div className='sm:hidden absolute p-2 flex flex-1 justify-end items-center text-white' onClick={() => setToggle(!toggle)}>
           {!toggle ? (

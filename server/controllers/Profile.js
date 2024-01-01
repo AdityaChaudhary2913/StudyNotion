@@ -8,25 +8,35 @@ const { convertSecondsToDuration } = require("../utils/secToDuration");
 exports.updateProfile = async (req, res) => {
   try{
     //Fetch data
-    const { firstName, lastName, dateOfBirth, about, contactNumber, gender } = req.body;
+    const {
+      firstName = "",
+      lastName = "",
+      dateOfBirth = "",
+      about = "",
+      contactNumber = "",
+      gender = "",
+    } = req.body
     //Fetch UserId
     const id=req.user.id;
     //Finding profile
     const userDetail = await User.findById(id);
     const profile = await Profile.findById(userDetail.additionalDetails);
     //Updating Profile
-    if(firstName) userDetail.firstName=firstName;
-    if(lastName) userDetail.lastName=lastName;
-    if(dateOfBirth) profile.dateOfBirth=dateOfBirth;
-    if(about) profile.about=about;
-    if(contactNumber) profile.contactNumber=contactNumber;
-    if(gender) profile.gender=gender;
-    await profile.save();
+    const user = await User.findByIdAndUpdate(id, {firstName, lastName})
+    await user.save()
+    profile.dateOfBirth = dateOfBirth
+    profile.about = about
+    profile.contactNumber = contactNumber
+    profile.gender = gender
+    // Save the updated profile
+    await profile.save()
+
+    const updatedUserDetails = await User.findById(id).populate("additionalDetails").exec()
     
     return res.status(200).json({
       success:true,
       message:"Profile Updated Successfully",
-      profile, 
+      updatedUserDetails, 
     });
   } catch(err){
     console.log("Error while updating profile");

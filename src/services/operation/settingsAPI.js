@@ -14,14 +14,15 @@ export function updateProfile(token, formdata){
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
-      const userImage = response.data.profile.image
-        ? response.data.profile.image
-        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.profile.firstName} ${response.data.profile.lastName}`
-      dispatch(setUser(response.data.profile))
+      const userImage = response.data.updatedUserDetails.image
+        ? response.data.updatedUserDetails.image
+        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.updatedUserDetails.firstName} ${response.data.updatedUserDetails.lastName}`
+      dispatch(setUser({ ...response.data.updatedUserDetails, image: userImage }))
       localStorage.setItem("user", JSON.stringify({...response.data.profile, additionalDetail:response.data.additionalDetail, image:userImage}))
       toast.success("Profile Updated Successfully")
     } catch(err){
-      toast.error(err.response.data.message)
+      console.log(err)
+      // toast.error(err.response.data.message)
     }
     toast.dismiss(toastId)
   }
@@ -60,7 +61,7 @@ export function deleteProfile(token, navigate){
     const toastId = toast.loading("Loading...")
     try{
       await apiConnector("DELETE", DELETE_PROFILE_API, null, {Authorization: `Bearer ${token}`})
-      toast.success("Proifle deleted Successfully")
+      toast.success("Profile deleted Successfully")
       dispatch(logout(navigate))
     } catch(err){
       toast.error(err.response.data.message)

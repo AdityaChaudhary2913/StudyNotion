@@ -17,7 +17,7 @@ const cartSlice = createSlice({
 
       //Course already added or not
       if(index >= 0){
-        toast.error("Course is already in the cart");
+        // toast.error("Course is already in the cart");
         return;
       }
 
@@ -31,7 +31,7 @@ const cartSlice = createSlice({
       localStorage.setItem("total", JSON.stringify(state.total));
       localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
 
-      toast.success("Course added to the cart");
+      // toast.success("Course added to the cart");
     },
     removeFromCart: (state, action) => {
       const courseID = action.payload;

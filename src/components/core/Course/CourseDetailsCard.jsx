@@ -37,14 +37,8 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
       return
     }
     if (token) {
-      setConfirmationModal({
-        text1: "Click on Buy to Complete your purchase",
-        text2: "This will deduct required amount of money from your balance",
-        btn1Text: "Buy",
-        btn2Text: "Cancel",
-        btn1Handler: () => buyFinal(),
-        btn2Handler: () => setConfirmationModal(null),
-      })
+      await addCart({courseId}, token)
+      dispatch(addToCart(course))
       return
     }
     setConfirmationModal({

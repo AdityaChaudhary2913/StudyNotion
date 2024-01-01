@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import IconBtn from '../../../common/IconBtn';
 import { updateProfile } from '../../../../services/operation/settingsAPI';
 
@@ -191,12 +191,12 @@ const PersonalDataUploader = () => {
 				</div>
       </div>
       <div className='flex justify-end gap-2'>
-          <button
-            onClick={navigate('/dashboard/my-profile')}
+          <Link
+            to='/dashboard/my-profile'
             className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
           >
             Cancel
-          </button>
+          </Link>
           <IconBtn type='submit' text="Save"/>
       </div>
     </form>
