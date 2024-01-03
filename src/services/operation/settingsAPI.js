@@ -18,7 +18,7 @@ export function updateProfile(token, formdata){
         ? response.data.updatedUserDetails.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.updatedUserDetails.firstName} ${response.data.updatedUserDetails.lastName}`
       dispatch(setUser({ ...response.data.updatedUserDetails, image: userImage }))
-      localStorage.setItem("user", JSON.stringify({...response.data.profile, additionalDetail:response.data.additionalDetail, image:userImage}))
+      localStorage.setItem("user", JSON.stringify({...response.data.updatedUserDetails, image:userImage}))
       toast.success("Profile Updated Successfully")
     } catch(err){
       console.log(err)
