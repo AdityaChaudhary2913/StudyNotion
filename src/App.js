@@ -28,9 +28,23 @@ import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/Instructor";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 function App() {
-  const { user } = useSelector((state) => state.profile)
+  const { token } = useSelector((state) => state.auth)
+  const [userData, setUserData] = useState(null)  
+  useEffect(()=> {
+    const setData = async() => {
+      const decodedToken = await jwtDecode(token)
+      if(decodedToken !== userData){
+        setUserData(decodedToken)
+      }
+    }
+    if(token){
+      setData();
+    }
+  }, [token])
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar/> 
@@ -49,7 +63,7 @@ function App() {
           <Route path="/dashboard/my-profile" element={<Myprofile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {
-            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            userData?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
                 <Route path="dashboard/cart" element={<Cart />} />
                 <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
@@ -57,7 +71,7 @@ function App() {
             )
           }
           {
-            user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+            userData?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
                 <Route path="/dashboard/add-course" element={<AddCourse />} />
                 <Route path="/dashboard/my-courses" element={<MyCourses />} />
@@ -69,7 +83,7 @@ function App() {
         </Route>
         <Route element={<PrivateRoute><ViewCourse /></PrivateRoute>}>
           {
-            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            userData?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
                 <Route
                   path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
