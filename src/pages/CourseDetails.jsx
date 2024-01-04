@@ -153,7 +153,9 @@ const CourseDetails = () => {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
+              <div className="mx-auto">
               <IconBtn text="Buy Now" onclick={handleBuyCourse} />
+              </div>
               <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">Add to Cart</button>
             </div>
           </div>
