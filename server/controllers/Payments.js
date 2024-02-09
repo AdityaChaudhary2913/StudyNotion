@@ -26,7 +26,7 @@ exports.payment = async (req, res) => {
       stripe.charges.create(
         {
           amount: product.price * 100,
-          currency: "inr",
+          currency: "INR",
           customer: customer.id,
           receipt_email: token.email,
           description: `purchase of ${product.courseName}`,
