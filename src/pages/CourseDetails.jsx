@@ -84,6 +84,30 @@ const CourseDetails = () => {
     createdAt,
   } = response.data?.courseDetails
 
+  const product = response.data?.courseDetails
+
+  // const makePayment = token => {
+  //   const body = {
+  //     token,
+  //     product
+  //   };
+  //   const headers = {
+  //     "Content-Type": "application/json"
+  //   };
+
+  //   return fetch(`http://localhost:4000/pay`, {
+  //     method: "POST",
+  //     headers,
+  //     body: JSON.stringify(body)
+  //   })
+  //     .then(response => {
+  //       console.log("RESPONSE ", response);
+  //       const { status } = response;
+  //       console.log("STATUS ", status);
+  //     })
+  //     .catch(error => console.log(error));
+  // };
+
   const handleBuyCourse = async () => {
     if (token) {
       // await BuyCourse(token, [courseId], user, navigate, dispatch)

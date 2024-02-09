@@ -7,6 +7,42 @@ const { default: mongoose } = require("mongoose");
 const { paymentSuccessEmail } = require("../mail/paymentSuccessEmail");
 const CourseProgress = require("../models/CourseProgress");
 const crypto = require("crypto")
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { v4: uuidv4 } = require('uuid');
+
+exports.payment = async (req, res) => {
+  const { product, token } = req.body;
+  console.log("PRODUCT ", product);
+  console.log("PRICE ", product.price);
+  const idempontencyKey = uuidv4()
+
+  return stripe.customers
+    .create({
+      email: token.email,
+      source: token.id
+    })
+    .then(customer => {
+      stripe.charges.create(
+        {
+          amount: product.price * 100,
+          currency: "inr",
+          customer: customer.id,
+          receipt_email: token.email,
+          description: `purchase of ${product.courseName}`,
+          shipping: {
+            name: token.card.name,
+            address: {
+              country: token.card.address_country
+            }
+          }
+        },
+        { idempontencyKey }
+      );
+    })
+    .then(result => res.status(200).json(result))
+    .catch(err => console.log(err));
+}
 
 exports.capturePayment = async (req, res) => {
   const { courses } = req.body

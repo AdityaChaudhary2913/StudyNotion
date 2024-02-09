@@ -2,18 +2,21 @@ import React from "react"
 import copy from "copy-to-clipboard"
 import { toast } from "react-hot-toast"
 import { BsFillCaretRightFill } from "react-icons/bs"
+import StripeCheckout from 'react-stripe-checkout';
 import { FaShareSquare } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { addToCart } from "../../../slices/cartSlice"
 import { ACCOUNT_TYPE } from "../../../utils/constants"
 import { addCart } from "../../../services/operation/courseDetailAPI"
+import { purchaseDirectly } from "../../../services/operation/studentFeaturesAPI";
 
-const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) => {
+const CourseDetailsCard = ({ course, setConfirmationModal }) => {
   const { user } = useSelector((state) => state.profile)
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const authToken = token
 
   const {
     thumbnail: ThumbnailImage,
@@ -21,15 +24,43 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
     _id: courseId,
   } = course
 
+  const product = course
+
+  const makePayment = async token => {
+    const body = {
+      token,
+      product
+    };
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    const paymentResponse = await fetch(`http://localhost:4000/api/v1/payment/pay`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+        console.log("RESPONSE ", response);
+        const { status } = response;
+        console.log("STATUS ", status);
+      })
+      .catch(error => console.log(error));
+
+    await purchaseDirectly({courseId}, authToken, navigate, dispatch)
+
+    return paymentResponse
+  };
+
   const handleShare = () => {
     copy(window.location.href)
     toast.success("Link copied to clipboard")
   }
 
-  const buyFinal = async () => {
-    await addCart({courseId}, token)
-    dispatch(addToCart(course))
-  }
+  // const buyFinal = async () => {
+  //   await addCart({courseId}, token)
+  //   dispatch(addToCart(course))
+  // }
 
   const handleAddToCart = async () => {
     if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
@@ -67,7 +98,7 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
             Rs. {CurrentPrice}
           </div>
           <div className="flex flex-col gap-4">
-            <button
+            {/* <button
               className="cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 bg-yellow-50"
               onClick={
                 user && course?.studentsEnrolled.includes(user?._id)
@@ -78,7 +109,22 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
               {user && course?.studentsEnrolled.includes(user?._id)
                 ? "Go To Course"
                 : "Buy Now"}
-            </button>
+            </button> */}
+            <StripeCheckout
+                token={makePayment}
+                name="Buy Course"
+                amount={product.price}
+                stripeKey={process.env.REACT_APP_STRIPE_PKEY}
+            >
+              <button
+                className="cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 bg-yellow-50"
+                onClick={user && course?.studentsEnrolled.includes(user?._id) && navigate("/dashboard/enrolled-courses")}
+              >
+                {user && course?.studentsEnrolled.includes(user?._id)
+                  ? "Go To Course"
+                  : "Buy Now"}
+              </button>
+            </StripeCheckout>
             {(!user || !course?.studentsEnrolled.includes(user?._id)) && (
               <button onClick={handleAddToCart}  className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
                 Add to Cart
