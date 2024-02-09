@@ -18,7 +18,7 @@ import Myprofile from "./components/core/Dashboard/Myprofile";
 import Settings from "./components/core/Dashboard/Settings/Settings";
 import Cart from "./components/core/Dashboard/Cart/Index";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Error from "./pages/Error";
 import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
@@ -30,15 +30,18 @@ import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Instructor from "./components/core/Dashboard/Instructor";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
+import { setUserReal } from "./slices/profileSlice";
 
 function App() {
   const { token } = useSelector((state) => state.auth)
   const [userData, setUserData] = useState(null)  
+  const dispatch = useDispatch();
   useEffect(()=> {
     const setData = async() => {
       const decodedToken = await jwtDecode(token)
       if(decodedToken !== userData){
         setUserData(decodedToken)
+        dispatch(setUserReal(decodedToken))
       }
     }
     if(token){

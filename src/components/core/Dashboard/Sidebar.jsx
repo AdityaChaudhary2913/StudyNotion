@@ -6,7 +6,7 @@ import { VscSignOut } from "react-icons/vsc"
 import { logout } from "../../../services/operation/authAPI"
 
 const Sidebar = ({toggle, setConfirmationModel}) => {
-  const { user, loading: profileLoading } = useSelector((state) => state.profile);
+  const { userReal, loading: profileLoading } = useSelector((state) => state.profile);
   const { loading: authLoading } = useSelector((state)=> state.auth);
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -23,7 +23,7 @@ const Sidebar = ({toggle, setConfirmationModel}) => {
         <div className="flex flex-col">
           {
             sidebarLinks.map((link) => {
-              if(link.type && user?.accountType !== link.type) return null;
+              if(link.type && userReal?.accountType !== link.type) return null;
               return (
                 <SidebarLinks key={link.id} link={link} iconName={link.icon} />
               )
