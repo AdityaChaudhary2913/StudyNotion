@@ -8,12 +8,12 @@ This starter pack includes a basic setup for using **Tailwind CSS with React**. 
 
 1. Clone the repository to your local machine.
     ```sh
-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git
+    git clone https://github.com/AdityaTheJaat/StudyNotion.git
     ```
 
 1. Install the required packages.
     ```sh
-    cd react-tailwind-css-starter-pack
+    cd StudyNotion
     npm install
     ```
 
