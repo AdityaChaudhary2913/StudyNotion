@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../../services/operation/authAPI';
 
-const LoginForm = () => {
+const LoginForm = ({formData, setFormData}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email:"",
-    password:"",
-  })
+  // const [formData, setFormData] = useState({
+  //   email:"",
+  //   password:"",
+  // })
   const [showPassword, setShowPassword] = useState(false);
   const {email, password} = formData;
   const changeHandler = (event) => {
