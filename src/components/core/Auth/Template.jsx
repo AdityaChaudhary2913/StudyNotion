@@ -24,18 +24,21 @@ const Template = ({title, description1, description2, formType, image}) => {
               {description2}
             </span>
           </p>
-          <div className='flex'>
-            <div onClick={userG} className='group mt-12 p-1 mx-auto rounded-full text-richblack-200 bg-richblack-800 font-bold transition-all duration-200 hover:scale-95 w-fit cursor-pointer'>
-              <div className='flex items-center gap-2 rounded-full px-5 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
-                <p>Use Guest User</p>
+          {
+            formType !== "signup" && (<div className='flex'>
+              <div onClick={userG} className='group mt-12 p-1 mx-auto rounded-full text-richblack-200 bg-richblack-800 font-bold transition-all duration-200 hover:scale-95 w-fit cursor-pointer'>
+                <div className='flex items-center gap-2 rounded-full px-5 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
+                  <p>Use Guest User</p>
+                </div>
               </div>
-            </div>
-            <div onClick={instG} className='group mt-12 p-1 mx-auto rounded-full text-richblack-200 bg-richblack-800 font-bold transition-all duration-200 hover:scale-95 w-fit cursor-pointer'>
-              <div className='flex items-center gap-2 rounded-full px-5 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
-                <p>Use Guest Instructor</p>
+              <div onClick={instG} className='group mt-12 p-1 mx-auto rounded-full text-richblack-200 bg-richblack-800 font-bold transition-all duration-200 hover:scale-95 w-fit cursor-pointer'>
+                <div className='flex items-center gap-2 rounded-full px-5 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
+                  <p>Use Guest Instructor</p>
+                </div>
               </div>
-            </div>
-          </div>
+            </div>)
+          }
+          
           {formType === "signup" ? <SignupForm/> : <LoginForm formData={formData} setFormData={setFormData} />}
         </div>
         <div className="relative mx-auto w-11/12 max-w-[450px] md:mx-0">
