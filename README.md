@@ -26,4 +26,5 @@ StudyNotion offers benefit from an array of features designed to enhance their l
 ## Abstract
 
 At the heart of our project lies the exploration of API creation and testing. By leveraging tools like PostmanAPI(We will give demonstration of Postman API tool also), we demonstrate the seamless functionality of APIs, ensuring they deliver accurate responses and meet the platform's requirements effectively. Moreover, StudyNotion emphasizes robust authentication mechanisms, efficient course management, and streamlined content access to foster an immersive and engaging educational ecosystem.
+
 In essence, StudyNotion emerges as a dynamic and intuitive ed-tech platform, poised to revolutionize online education. By providing a platform for instructors to showcase their expertise and enabling students to access a diverse array of educational resources, StudyNotion embodies the ethos of modern education paradigms. In the subsequent sections, we delve deeper into the technical intricacies of StudyNotion, elucidating its features and functionalities to offer a comprehensive understanding of its capabilities.
