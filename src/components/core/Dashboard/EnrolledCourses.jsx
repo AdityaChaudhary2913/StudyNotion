@@ -40,7 +40,7 @@ const EnrolledCourses = () => {
                     `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
                   )
                 }}>
-                    <img  src={course.thumbnail} alt='' className="h-20 w-20 rounded-lg object-cover"/>
+                    <img  src={course.thumbnail} alt='' className="hidden md:block h-20 w-20 rounded-lg object-cover"/>
                     <div className="flex max-w-xs flex-col gap-2">
                       <p className="font-semibold">{course.courseName}</p>
                       <p className="text-xs text-richblack-300">
