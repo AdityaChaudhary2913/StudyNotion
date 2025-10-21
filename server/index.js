@@ -6,6 +6,7 @@ const profileRoutes = require("./routes/Profile");
 const paymentRoutes = require("./routes/Payment");
 const courseRoutes = require("./routes/Course");
 const contactRoutes = require("./routes/Contact");
+const walletRoutes = require("./routes/Wallet");
 
 const { connectDB } = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
@@ -40,6 +41,7 @@ app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1", contactRoutes);
+app.use("/api/v1/wallet", walletRoutes);
 
 app.get('/', (req, res) => {
   return res.json({

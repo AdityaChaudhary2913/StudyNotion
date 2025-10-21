@@ -189,7 +189,6 @@ const PersonalDataUploader = () => {
 							)}
 					</div>
 				</div>
-      </div>
       <div className='flex justify-end gap-2'>
           <Link
             to='/dashboard/my-profile'
@@ -198,6 +197,7 @@ const PersonalDataUploader = () => {
             Cancel
           </Link>
           <IconBtn type='submit' text="Save"/>
+      </div>
       </div>
     </form>
   )

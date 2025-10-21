@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { fetchCourseDetails } from "../services/operation/courseDetailAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
-import { BuyCourse, purchaseDirectly } from "../services/operation/studentFeaturesAPI"
+import { purchaseDirectly } from "../services/operation/studentFeaturesAPI"
 import ConfirmationModel from "../components/common/ConfirmationModel"
 import { formatDate } from "../services/formatDate"
 import RatingStars from "../components/common/RatingStars"
@@ -16,10 +16,8 @@ import CourseDetailsCard from "../components/core/Course/CourseDetailsCard"
 import CourseAccordianBar from "../components/core/Course/CourseAccordianBar"
 
 const CourseDetails = () => {
-  const { user } = useSelector((state) => state.profile)
   const { token } = useSelector((state) => state.auth)
   const { loading } = useSelector((state) => state.profile)
-  const { paymentLoading } = useSelector((state) => state.course)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { courseId } = useParams()

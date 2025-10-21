@@ -29,6 +29,10 @@ const userSchema= new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  wallet: {
+    type: Number,
+    default: 0,
+  },
   approved: {
     type: Boolean,
     default: true,

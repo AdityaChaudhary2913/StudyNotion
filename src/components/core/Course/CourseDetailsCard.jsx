@@ -3,6 +3,8 @@ import copy from "copy-to-clipboard";
 import { toast } from "react-hot-toast";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import StripeCheckout from "react-stripe-checkout";
+import { payWithWallet } from "../../../services/operation/walletAPI";
+import ConfirmationModel from "../../common/ConfirmationModel";
 import { FaShareSquare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +18,8 @@ const CourseDetailsCard = ({
 	setConfirmationModal,
 	handleBuyCourse,
 }) => {
+	const [walletLoading, setWalletLoading] = React.useState(false);
+	const [walletModal, setWalletModal] = React.useState(false);
 	const { user } = useSelector((state) => state.profile);
 	const { token } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
@@ -30,34 +34,48 @@ const CourseDetailsCard = ({
 
 	const product = course;
 
-	const makePayment = async (token) => {
-		const body = {
-			token,
-			product,
+		const makePayment = async (token) => {
+			const body = {
+				token,
+				product,
+			};
+			const headers = {
+				"Content-Type": "application/json",
+			};
+			const paymentResponse = await fetch(
+				`http://localhost:4000/api/v1/payment/pay`,
+				{
+					method: "POST",
+					headers,
+					body: JSON.stringify(body),
+				}
+			)
+				.then((response) => {
+					console.log("RESPONSE ", response);
+					const { status } = response;
+					console.log("STATUS ", status);
+				})
+				.catch((error) => console.log(error));
+			await purchaseDirectly({ courseId }, authToken, navigate, dispatch);
+			return paymentResponse;
 		};
-		const headers = {
-			"Content-Type": "application/json",
-		};
 
-		const paymentResponse = await fetch(
-			`http://localhost:4000/api/v1/payment/pay`,
-			{
-				method: "POST",
-				headers,
-				body: JSON.stringify(body),
-			}
-		)
-			.then((response) => {
-				console.log("RESPONSE ", response);
-				const { status } = response;
-				console.log("STATUS ", status);
-			})
-			.catch((error) => console.log(error));
+			const processWalletPayment = async () => {
+				setWalletLoading(true);
+				const result = await payWithWallet(CurrentPrice, authToken);
+				setWalletLoading(false);
+				if (result.success) {
+					toast.success("Payment successful! Course enrolled.");
+					await purchaseDirectly({ courseId }, authToken, navigate, dispatch);
+				} else {
+					toast.error(result.message || "Wallet payment failed");
+				}
+				setWalletModal(false);
+			};
 
-		await purchaseDirectly({ courseId }, authToken, navigate, dispatch);
-
-		return paymentResponse;
-	};
+			const handleWalletPayment = () => {
+				setWalletModal(true);
+			};
 
 	const handleShare = () => {
 		copy(window.location.href);
@@ -103,57 +121,71 @@ const CourseDetailsCard = ({
 					<div className="space-x-3 pb-4 text-3xl font-semibold">
 						Rs. {CurrentPrice}
 					</div>
-					<div className="flex flex-col gap-4">
-						{/* <button
-              className="cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 bg-yellow-50"
-              onClick={
-                user && course?.studentsEnrolled.includes(user?._id)
-                  ? () => navigate("/dashboard/enrolled-courses")
-                  : handleBuyCourse
-              }
-            >
-              {user && course?.studentsEnrolled.includes(user?._id)
-                ? "Go To Course"
-                : "Buy Now"}
-            </button> */}
-						{token ? (
-							<StripeCheckout
-								token={makePayment}
-								name="Buy Course"
-								amount={product.price}
-								stripeKey={process.env.REACT_APP_STRIPE_PKEY}>
-								<button
-									className="cursor-pointer gap-x-2 rounded-md py-2 w-full px-5 font-semibold text-richblack-900 bg-yellow-50"
-									onClick={
-										user &&
-										course?.studentsEnrolled.includes(user?._id) &&
-										navigate("/dashboard/enrolled-courses")
-									}>
-									{user && course?.studentsEnrolled.includes(user?._id)
-										? "Go To Course"
-										: "Buy Now"}
-								</button>
-							</StripeCheckout>
-						) : (
-							<button
-								className="cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 bg-yellow-50"
-								onClick={
-									user && course?.studentsEnrolled.includes(user?._id)
-										? () => navigate("/dashboard/enrolled-courses")
-										: handleBuyCourse
-								}>
-								{user && course?.studentsEnrolled.includes(user?._id)
-									? "Go To Course"
-									: "Buy Now"}
-							</button>
-						)}
-						{(!user || !course?.studentsEnrolled.includes(user?._id)) && (
-							<button
-								onClick={handleAddToCart}
-								className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
-								Add to Cart
-							</button>
-						)}
+											<div className="flex flex-col gap-4">
+												{token ? (
+													<>
+														<button
+															className="cursor-pointer gap-x-2 rounded-md py-2 w-full px-5 font-semibold text-richblack-900 bg-yellow-50"
+															disabled={walletLoading}
+															onClick={handleWalletPayment}
+														>
+															{walletLoading ? "Processing..." : "Pay with Wallet"}
+														</button>
+														<StripeCheckout
+															token={makePayment}
+															name="Buy Course"
+															amount={product.price * 100}
+															currency="INR"
+															stripeKey={process.env.REACT_APP_STRIPE_PKEY}
+														>
+															<button
+																className="cursor-pointer gap-x-2 rounded-md py-2 w-full px-5 font-semibold text-richblack-900 bg-yellow-50"
+																onClick={
+																	user &&
+																	course?.studentsEnrolled.includes(user?._id) &&
+																	navigate("/dashboard/enrolled-courses")
+																}
+															>
+																{user && course?.studentsEnrolled.includes(user?._id)
+																	? "Go To Course"
+																	: "Pay with Stripe"}
+															</button>
+														</StripeCheckout>
+														{walletModal && (
+															<ConfirmationModel
+																modelData={{
+																	text1: `Confirm payment of ₹${CurrentPrice} from wallet?`,
+																	text2: "This will deduct the amount from your wallet.",
+																	btn1Text: walletLoading ? "Processing..." : "Confirm",
+																	btn2Text: "Cancel",
+																	btn1Handler: processWalletPayment,
+																	btn2Handler: () => setWalletModal(false),
+																}}
+															/>
+														)}
+													</>
+												) : (
+													<button
+														className="cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 bg-yellow-50"
+														onClick={
+															user && course?.studentsEnrolled.includes(user?._id)
+																? () => navigate("/dashboard/enrolled-courses")
+																: handleBuyCourse
+														}
+													>
+														{user && course?.studentsEnrolled.includes(user?._id)
+															? "Go To Course"
+															: "Buy Now"}
+													</button>
+												)}
+												{(!user || !course?.studentsEnrolled.includes(user?._id)) && (
+													<button
+														onClick={handleAddToCart}
+														className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100"
+													>
+														Add to Cart
+													</button>
+												)}
 					</div>
 					<div>
 						<p className="pb-3 pt-6 text-center text-sm text-richblack-25">
