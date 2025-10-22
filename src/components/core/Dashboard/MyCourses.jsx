@@ -19,7 +19,7 @@ const MyCourses = () => {
       }
     }
     fetchCourses()
-  }, [])
+  }, [token])
 
   return (
     <div>

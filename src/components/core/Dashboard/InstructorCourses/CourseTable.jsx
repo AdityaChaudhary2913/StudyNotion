@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { HiClock } from "react-icons/hi";
@@ -16,7 +16,6 @@ import ConfirmationModel from "../../../common/ConfirmationModel";
 import { formatDate } from "../../../../services/formatDate";
 
 const CourseTable = ({ courses, setCourses }) => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { token } = useSelector((state) => state.auth);
 	const [loading, setLoading] = useState(false);

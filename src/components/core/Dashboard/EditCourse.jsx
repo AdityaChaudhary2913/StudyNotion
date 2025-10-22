@@ -22,7 +22,7 @@ const EditCourse = () => {
       }
       setLoading(false)
     })()
-  }, [])
+  }, [courseId, dispatch, token])
 
   return (
     <div>

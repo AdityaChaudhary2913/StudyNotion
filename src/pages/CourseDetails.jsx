@@ -69,7 +69,7 @@ const CourseDetails = () => {
   }
 
   const {
-    _id: course_id,
+    // _id: course_id,
     courseName,
     courseDescription,
     thumbnail,
@@ -82,7 +82,7 @@ const CourseDetails = () => {
     createdAt,
   } = response.data?.courseDetails
 
-  const product = response.data?.courseDetails
+  // const product = response.data?.courseDetails
 
   // const makePayment = token => {
   //   const body = {

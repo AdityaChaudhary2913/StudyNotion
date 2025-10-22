@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import IconBtn from '../../../common/IconBtn';
 import { FiUpload } from "react-icons/fi"
-import { toast } from 'react-hot-toast';
 import { updateDP } from '../../../../services/operation/settingsAPI';
 
 const ImageUploader = () => {

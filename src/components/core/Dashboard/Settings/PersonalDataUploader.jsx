@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import IconBtn from '../../../common/IconBtn';
 import { updateProfile } from '../../../../services/operation/settingsAPI';
 
@@ -10,7 +10,6 @@ const genders = ["Male", "Female", "Prefer not to say", "Other"];
 const PersonalDataUploader = () => {
   const {user} = useSelector((state) => state.profile)
   const {token} = useSelector((state) => state.auth)
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {register, handleSubmit, formState: {errors}} = useForm();
   const submitForm = async (formdata) => {

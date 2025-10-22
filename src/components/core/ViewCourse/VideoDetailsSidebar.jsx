@@ -33,7 +33,7 @@ const VideoDetailsSidebar = ({setReviewModal, toggle, setToggle}) => {
       setActiveStatus(courseSectionData?.[currentSectionIndx]?._id)
       setVideoBarActive(activeSubSectionId)
     })()
-  }, [courseSectionData, courseEntireData, location.pathname])
+  }, [courseSectionData, courseEntireData, location.pathname, sectionId, subSectionId])
   return (
     <>
       <div className="flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">

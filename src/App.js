@@ -10,6 +10,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import Footer from "./components/common/Footer";
 import Contact from "./pages/Contact";
+import ChatbotPage from "./pages/Chatbot";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
@@ -47,7 +48,7 @@ function App() {
     if(token){
       setData();
     }
-  }, [token])
+  }, [token, dispatch, userData])
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar/> 
@@ -60,6 +61,7 @@ function App() {
         <Route path="/verify-email" element={<OpenRoute><VerifyEmail/></OpenRoute>} />
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/chatbot" element={<ChatbotPage/>} />
         <Route path="/catalog/:catalogName" element={<Catalog />} />
         <Route path="/courses/:courseId" element={<CourseDetails />} />
         <Route element={<PrivateRoute><Dashboard /></PrivateRoute>}>
