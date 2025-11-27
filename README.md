@@ -2,6 +2,8 @@
 
 In the contemporary era, online education platforms have revolutionized the way knowledge is disseminated and acquired. In line with this trend, our project, titled "StudyNotion," presents a Full Stack MERN (MongoDB, Express, React, Node.js) application tailored for both instructors and students. With a focus on API creation and testing using Postman, StudyNotion facilitates seamless interaction between instructors and students, ensuring a robust educational experience.
 
+### Demo Video: https://drive.google.com/file/d/1xPbGqy5uaJLS0E84mUFBuoEeuuPgyGHZ/view
+
 ## For instructors:
 
 StudyNotion offers a comprehensive suite of functionalities.
